@@ -12,7 +12,7 @@ export class FleetPlacingService {
 
   constructor(private afs: AngularFirestore) { }
 
-  createBoard(rows: number, columns: number) {
+  createBoard(rows: number, columns: number, playerName: string) {
     // create a 2d array that represents the player board with the number of c and r as arguments
     // this.board = Array(rows).fill(Array(columns));
     // tslint:disable-next-line: prefer-for-of
@@ -29,7 +29,7 @@ export class FleetPlacingService {
 
     }
     // llamar a función para guardar en firestore
-    const dataToSave = this.board;
+    const dataToSave = {board: this.board, player: playerName };
     this.saveBoardInFirestore(dataToSave);
   }
 

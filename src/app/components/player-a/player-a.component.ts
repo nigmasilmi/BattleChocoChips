@@ -15,12 +15,15 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   withCookie = false;
   // rowInput: number;
   // colInput: number;
+  // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
+  // las mismas condiciones de batalla (mismo tamaño de boards)
   colInput = 4;
   rowInput = 4;
+  playerName = 'cualquieraPorAhora';
   constructor(private fleetPlacingS: FleetPlacingService) { }
 
   ngOnInit() {
-    this.fleetPlacingS.createBoard(this.rowInput, this.colInput);
+    this.fleetPlacingS.createBoard(this.rowInput, this.colInput, this.playerName);
   }
 
   ngAfterViewInit() {

@@ -1,1 +1,8 @@
 <p>game-board works!</p>
+
+<input [(ngModel)] = "playerName" type="text" (ngModelChange)="getPlayerName($event)" placeholder="NOMBRE DEL JUGADOR">
+<input [(ngModel)] = "numberOfRows" (ngModelChange)="getTheRowsNumber($event)" type= "number">
+<input [(ngModel)] = "numberOfCols" (ngModelChange)="getTheColsNumber($event)" type= "number">
+
+<!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
+de la función -->
