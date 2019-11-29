@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 
@@ -9,6 +10,16 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 export class FleetPlacingService {
 
   board = {};
+
+// reactive form construction
+preferencesForm = new FormGroup({
+  playerName: new FormControl(''),
+  colsInput: new FormControl(''),
+  rowsInput: new FormControl(''),
+
+});
+
+
 
   constructor(private afs: AngularFirestore) { }
 
