@@ -10,14 +10,14 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 export class FleetPlacingService {
 
   board = {};
+  actualPlayer = '';
+  // reactive form construction
+  preferencesForm = new FormGroup({
+    playerName: new FormControl(''),
+    colsInput: new FormControl(''),
+    rowsInput: new FormControl(''),
 
-// reactive form construction
-preferencesForm = new FormGroup({
-  playerName: new FormControl(''),
-  colsInput: new FormControl(''),
-  rowsInput: new FormControl(''),
-
-});
+  });
 
 
 
@@ -25,7 +25,6 @@ preferencesForm = new FormGroup({
 
   createBoard(rows: number, columns: number, playerName: string) {
     // create a 2d array that represents the player board with the number of c and r as arguments
-    // this.board = Array(rows).fill(Array(columns));
     // tslint:disable-next-line: prefer-for-of
     for (let r = 0; r < rows; r++) {
       this.board[r] = [];
@@ -39,13 +38,13 @@ preferencesForm = new FormGroup({
       }
 
     }
-    // llamar a función para guardar en firestore
-    const dataToSave = {board: this.board, player: playerName };
+    // saves in firestore
+    const dataToSave = { board: this.board, player: playerName };
     this.saveBoardInFirestore(dataToSave);
   }
 
 
-  // fuction that assigns 1 or 0 1 for placing cookie, 0 for not placing it
+  // fuction that assigns 1 or 0,  1 for placing cookie, 0 for not placing it
   placeCookieOrNot() {
     const numberA = Math.random();
     const numberB = Math.random();
@@ -56,6 +55,7 @@ preferencesForm = new FormGroup({
     }
   }
 
+  // CREATE BOARD (with player name)
   saveBoardInFirestore(data) {
     return new Promise<any>((resolve, reject) => {
       this.afs
@@ -69,4 +69,16 @@ preferencesForm = new FormGroup({
     });
   }
 
+  // RETRIEVE BOARD (based on player name)
+  // must validate name and id
+
+  retrieveBoard() {
+    const targetPlayer = this.actualPlayer;
+    return this.afs.collection(
+      'boards', ref => ref.where('player', '==', `${targetPlayer}`))
+      .snapshotChanges();
+  }
+
 }
+
+

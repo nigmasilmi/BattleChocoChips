@@ -13,3 +13,6 @@ de la función -->
   <input formControlName="colsInput" type="number" id="colsInputId"><br>
   <button (click)="onSubmit()">Crear Tablero</button>
 </form>
+<div *ngIf="playerIsSet">
+<a routerLink="/boardA">Ir al tablero </a>
+</div>

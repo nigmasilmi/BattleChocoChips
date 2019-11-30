@@ -9,26 +9,28 @@ import { FleetPlacingService } from '../../services/fleet-placing.service';
 export class PlayerAComponent implements OnInit, AfterViewInit {
 
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
-  // permissionToRender = false;
-  permissionToRender = true;
+  permissionToRender = false;
   board = [];
+  playerABoard = {};
   withCookie = false;
-  // rowInput: number;
-  // colInput: number;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
-  colInput = 4;
-  rowInput = 4;
-  playerName = 'cualquieraPorAhora';
-  constructor(private fleetPlacingS: FleetPlacingService) { }
+
+  constructor(private fleetPlacingS: FleetPlacingService) {
+    this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
+      this.playerABoard = whatComes;
+      console.log('this is whatComes: ', whatComes);
+      this.permissionToRender = true;
+
+    });
+  }
 
   ngOnInit() {
-    this.fleetPlacingS.createBoard(this.rowInput, this.colInput, this.playerName);
+
   }
 
-  ngAfterViewInit() {
-    console.log('nothing yet');
-  }
+  ngAfterViewInit() {}
+
   // function that sets the styles for occupied or not depending of the boolean value at the moment
   setTheSquare() {
     const classes = {
