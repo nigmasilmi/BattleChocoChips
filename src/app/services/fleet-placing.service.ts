@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
+import { map } from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore} from '@angular/fire/firestore';
+import { Board } from '../models/board';
 
 
 @Injectable({
@@ -62,7 +64,6 @@ export class FleetPlacingService {
         .collection('boards')
         .add(data)
         .then(res => {
-          { }
           console.log('esto es el resolve de la promesa en saveBoardInFirestore: ', res);
         },
           err => reject(err));
@@ -76,7 +77,19 @@ export class FleetPlacingService {
     const targetPlayer = this.actualPlayer;
     return this.afs.collection(
       'boards', ref => ref.where('player', '==', `${targetPlayer}`))
-      .snapshotChanges();
+      .snapshotChanges().pipe(map(changes => {
+        return changes.map(a => {
+          const boarDataComing = a.payload.doc.data() as Board;
+          console.log('esto es boarDataComing: ', boarDataComing);
+          boarDataComing.id = a.payload.doc.id;
+          for (const row in boarDataComing.board) {
+            if (row) {
+              console.log('row: ', row[0]);
+            }
+          }
+          return boarDataComing;
+        });
+      }));
   }
 
 }

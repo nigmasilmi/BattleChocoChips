@@ -1,11 +1,13 @@
 <p>player-a works!</p>
 <div *ngIf="permissionToRender">
+
   <div *ngFor="let info of playerABoard; let index = i">
-    {{info.payload.doc.data().player}}
-    {{info.payload.doc.data().board}}
-    <div>
-      {{ info.payload.doc.data().board[i]}}
-    </div>
+    {{info.player}}
+    {{info.id}}
+    {{info.board}}
+   
+
+    
   </div>
  
 

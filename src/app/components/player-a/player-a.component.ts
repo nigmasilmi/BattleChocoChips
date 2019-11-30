@@ -11,7 +11,7 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
   permissionToRender = false;
   board = [];
-  playerABoard = {};
+  playerABoard = [];
   withCookie = false;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
@@ -19,7 +19,7 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   constructor(private fleetPlacingS: FleetPlacingService) {
     this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
       this.playerABoard = whatComes;
-      console.log('this is whatComes: ', whatComes);
+      console.log('this is playerABoard now: ', this.playerABoard);
       this.permissionToRender = true;
 
     });
