@@ -24,7 +24,7 @@ describe('PlayerBComponent', () => {
   });
 
   it('should receive the oponent´s data', () => {
-    
-  })
+
+  });
 
 });

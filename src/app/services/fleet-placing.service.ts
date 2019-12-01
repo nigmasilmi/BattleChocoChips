@@ -106,7 +106,8 @@ export class FleetPlacingService {
 
   checkTheCoordLength(targetCoords) {
     const coords = [];
-    const coordLength = targetCoords.lenght;
+    const coordLength = targetCoords.toString().length;
+    console.log('targetCoords: ', targetCoords);
     if (coordLength > 2) {
       coords[0] = +coordLength.toString().slice(0, 2);
       coords[1] = +coordLength.toString().slice(2);
