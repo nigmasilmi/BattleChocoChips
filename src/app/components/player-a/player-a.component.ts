@@ -10,7 +10,7 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
 
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
   permissionToRender = false;
-  board = [];
+  settedRows: number;
   playerABoard = [];
   withCookie = false;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
@@ -26,16 +26,17 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.settedRows = this.fleetPlacingS.limiTheRows();
 
   }
 
   ngAfterViewInit() {}
 
   // function that sets the styles for occupied or not depending of the boolean value at the moment
-  setTheSquare() {
+  setTheSquare(isThereACookie) {
     const classes = {
-      ocuppied: this.withCookie === true,
-      empty: !this.withCookie === true
+      ocuppied: isThereACookie === 1,
+      empty: isThereACookie === 0
     };
     return classes;
   }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable} from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AngularFirestore} from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Board } from '../models/board';
 
 
@@ -13,6 +13,7 @@ export class FleetPlacingService {
 
   board = {};
   actualPlayer = '';
+  settedRows: number;
   // reactive form construction
   preferencesForm = new FormGroup({
     playerName: new FormControl(''),
@@ -28,6 +29,7 @@ export class FleetPlacingService {
   createBoard(rows: number, columns: number, playerName: string) {
     // create a 2d array that represents the player board with the number of c and r as arguments
     // tslint:disable-next-line: prefer-for-of
+    this.settedRows = rows;
     for (let r = 0; r < rows; r++) {
       this.board[r] = [];
       for (let c = 0; c < columns; c++) {
@@ -82,14 +84,22 @@ export class FleetPlacingService {
           const boarDataComing = a.payload.doc.data() as Board;
           console.log('esto es boarDataComing: ', boarDataComing);
           boarDataComing.id = a.payload.doc.id;
-          for (const row in boarDataComing.board) {
-            if (row) {
-              console.log('row: ', row[0]);
+          const boarData = [];
+          for (const obj in boarDataComing.board) {
+            if (obj) {
+              boarData.push(boarDataComing.board[obj]);
             }
           }
+          boarDataComing.board = boarData;
+          console.log('boarDataComing.board:', boarDataComing.board);
+          console.log('boarData:', boarData);
           return boarDataComing;
         });
       }));
+  }
+
+  limiTheRows() {
+    return this.settedRows;
   }
 
 }
