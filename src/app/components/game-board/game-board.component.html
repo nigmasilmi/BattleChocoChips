@@ -4,6 +4,8 @@
 
 <!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
 de la función -->
+<!-- JUGADOR A -->
+<h3>Jugador A</h3>
 <form [formGroup]="this.fleetPlacingS.preferencesForm">
   <label for="playerNameId">Nombre del Jugador</label>
   <input formControlName="playerName" type="text" id="playerNameId"><br>
@@ -15,4 +17,22 @@ de la función -->
 </form>
 <div *ngIf="playerIsSet">
 <a routerLink="/boardA">Ir al tablero </a>
+</div>
+
+<hr>
+<hr>
+
+<!-- JUGADOR B -->
+<h3>Jugador B</h3>
+<form [formGroup]="this.fleetPlacingS.preferencesForm">
+  <label for="playerNameId">Nombre del Jugador</label>
+  <input formControlName="playerName" type="text" id="playerNameId"><br>
+  <label for="rowsInputId">Cantidad de filas</label>
+  <input formControlName="rowsInput" type="number" id="rowsInputId"><br>
+  <label for="colsInputId">Cantidad de columnas</label>
+  <input formControlName="colsInput" type="number" id="colsInputId"><br>
+  <button (click)="onSubmit()">Crear Tablero</button>
+</form>
+<div *ngIf="playerIsSet">
+<a routerLink="/boardB">Ir al tablero </a>
 </div>

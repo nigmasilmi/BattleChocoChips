@@ -123,6 +123,7 @@ export class FleetPlacingService {
   // switches from with-cookie to without-cookie and viceversa
   // updates the values in firestore
   toogleTheCookie(idComing, targetCoords, contCookieComing) {
+    // let data = {};
     const rowCoord = this.checkTheCoordLength(targetCoords)[0];
     const colCoord = this.checkTheCoordLength(targetCoords)[1];
     console.log('rowCoord: ', rowCoord);
@@ -130,17 +131,16 @@ export class FleetPlacingService {
     console.log('idComing: ', idComing);
     console.log('targetCoords: ', targetCoords);
     console.log('contCookieComing: ', contCookieComing);
-    // if (contCookieComing === 0) {
-    //   const data = {
-    //     board : {
-    //       [rowCoord] : { `${colCoord}.withCookie`: 1},
-    //     },
-    //   };
-    //   return this.afs.collection('boards').doc(`${idComing}`).update({ data });
+    if (contCookieComing === 0) {
+      console.log('nada por ahora');
+      // data = `board.${rowCoord}.colCoord.withCookie`;
+    }
+
+    // return this.afs.collection('boards').doc(`${idComing}`).update({ data });
     //   // change the value of the target
-      // fetch the document with the id
-      // find the coordinate
-      // substitute de property's value
+    // fetch the document with the id
+    // find the coordinate
+    // substitute de property's value
     // }
   }
 

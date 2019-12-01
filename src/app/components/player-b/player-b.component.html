@@ -1,1 +1,13 @@
-<p>player-b works!</p>
+<div class="cookieJelly" *ngIf="permissionToRender">
+    <div *ngFor="let info of playerBBoard">
+      Jugador B: {{info.player}}
+      Id tablero: {{info.id}}
+      <div class="cookieJar" *ngFor="let row of info.board; index as i">
+        <div *ngIf="settedRows > i">
+          <div (click)="cookieToggler(info.id, obj.coordinates, obj.withCookie)" class="cookieSlot" *ngFor="let obj of row">
+           <div [ngClass]="setTheSquare(obj.withCookie)">{{obj.coordinates}}</div>   
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
