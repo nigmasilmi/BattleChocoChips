@@ -40,4 +40,10 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
     };
     return classes;
   }
+
+  cookieToggler(id, coords, containsCookie) {
+    this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie);
+  }
+
+
 }

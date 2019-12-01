@@ -98,8 +98,25 @@ export class FleetPlacingService {
       }));
   }
 
+  // stablishes the limit to render each row in the board grid
   limiTheRows() {
     return this.settedRows;
+  }
+
+  // switches from with-cookie to without-cookie and viceversa
+  // updates the values in firestore
+  toogleTheCookie(idComing, targetCoords, contCookieComing) {
+    console.log('idComing: ', idComing);
+    console.log('targetCoords: ', targetCoords);
+    console.log('contCookieComing: ', contCookieComing);
+    if (contCookieComing === 0) {
+      console.log('something por ahora');
+      // return this.afs.collection('boards').doc(`${idComing}`).update({boardng})
+      // change the value of the target
+      // fetch the document with the id
+      // find the coordinate
+      // substitute de property's value
+    }
   }
 
 }
