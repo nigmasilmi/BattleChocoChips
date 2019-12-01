@@ -12,3 +12,26 @@
     border: solid 2px #ffffff;
 
 }
+
+.cookieJelly{
+    display: flex;
+    flex-direction: column;
+}
+
+.cookieJar{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid pink;
+    justify-content: space-evenly;
+    align-items: normal;
+
+}
+
+.cookieSlot{
+    display: inline-block;
+    border: 2px solid black;
+    padding: 2%;
+    margin: 1%;
+}
+
+

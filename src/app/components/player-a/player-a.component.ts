@@ -9,32 +9,41 @@ import { FleetPlacingService } from '../../services/fleet-placing.service';
 export class PlayerAComponent implements OnInit, AfterViewInit {
 
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
-  // permissionToRender = false;
-  permissionToRender = true;
-  board = [];
+  permissionToRender = false;
+  settedRows: number;
+  playerABoard = [];
   withCookie = false;
-  // rowInput: number;
-  // colInput: number;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
-  colInput = 4;
-  rowInput = 4;
-  playerName = 'cualquieraPorAhora';
-  constructor(private fleetPlacingS: FleetPlacingService) { }
+
+  constructor(private fleetPlacingS: FleetPlacingService) {
+    this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
+      this.playerABoard = whatComes;
+      console.log('this is playerABoard now: ', this.playerABoard);
+      this.permissionToRender = true;
+
+    });
+  }
 
   ngOnInit() {
-    this.fleetPlacingS.createBoard(this.rowInput, this.colInput, this.playerName);
+    this.settedRows = this.fleetPlacingS.limiTheRows();
+
   }
 
-  ngAfterViewInit() {
-    console.log('nothing yet');
-  }
+  ngAfterViewInit() {}
+
   // function that sets the styles for occupied or not depending of the boolean value at the moment
-  setTheSquare() {
+  setTheSquare(isThereACookie) {
     const classes = {
-      ocuppied: this.withCookie === true,
-      empty: !this.withCookie === true
+      ocuppied: isThereACookie === 1,
+      empty: isThereACookie === 0
     };
     return classes;
   }
+
+  cookieToggler(id, coords, containsCookie) {
+    this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie);
+  }
+
+
 }

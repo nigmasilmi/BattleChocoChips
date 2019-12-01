@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FleetPlacingService } from 'src/app/services/fleet-placing.service';
 
 @Component({
   selector: 'app-game-board',
@@ -6,28 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./game-board.component.css']
 })
 export class GameBoardComponent implements OnInit {
-playerName: string;
-colsInput: number;
-rowsInput: number;
+  playerName: string;
+  colsInput: number;
+  rowsInput: number;
+  playerIsSet = false;
 
-  constructor() { }
+  constructor(private fleetPlacingS: FleetPlacingService) { }
 
   ngOnInit() {
   }
 
-  getPlayerName(player: string) {
-    this.playerName = player;
-    console.log('this is the player name: ', player);
+  onSubmit() {
+    const playerNameToPass = this.fleetPlacingS.preferencesForm.value.playerName;
+    const rowsInputToPass = this.fleetPlacingS.preferencesForm.value.rowsInput;
+    const colsInputToPass = this.fleetPlacingS.preferencesForm.value.colsInput;
+    this.fleetPlacingS.createBoard(rowsInputToPass, colsInputToPass, playerNameToPass);
+    this.fleetPlacingS.actualPlayer = this.fleetPlacingS.preferencesForm.value.playerName;
+    this.playerIsSet = true;
+    this.fleetPlacingS.preferencesForm.reset();
   }
 
-  getTheColsNumber(cols: number) {
-    this.colsInput = cols;
-    console.log('this is the cols input: ', cols);
-  }
-
-  getTheRowsNumber(rows: number) {
-    this.rowsInput = rows;
-    console.log('this is the rows input: ', rows);
-  }
-  
 }

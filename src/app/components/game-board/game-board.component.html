@@ -1,8 +1,18 @@
 <p>game-board works!</p>
 
-<input [(ngModel)] = "playerName" type="text" (ngModelChange)="getPlayerName($event)" placeholder="NOMBRE DEL JUGADOR">
-<input [(ngModel)] = "numberOfRows" (ngModelChange)="getTheRowsNumber($event)" type= "number">
-<input [(ngModel)] = "numberOfCols" (ngModelChange)="getTheColsNumber($event)" type= "number">
+
 
 <!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
 de la función -->
+<form [formGroup]="this.fleetPlacingS.preferencesForm">
+  <label for="playerNameId">Nombre del Jugador</label>
+  <input formControlName="playerName" type="text" id="playerNameId"><br>
+  <label for="rowsInputId">Cantidad de filas</label>
+  <input formControlName="rowsInput" type="number" id="rowsInputId"><br>
+  <label for="colsInputId">Cantidad de columnas</label>
+  <input formControlName="colsInput" type="number" id="colsInputId"><br>
+  <button (click)="onSubmit()">Crear Tablero</button>
+</form>
+<div *ngIf="playerIsSet">
+<a routerLink="/boardA">Ir al tablero </a>
+</div>
