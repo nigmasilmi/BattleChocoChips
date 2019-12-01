@@ -108,13 +108,15 @@ export class FleetPlacingService {
     const coords = [];
     const coordLength = targetCoords.toString().length;
     console.log('targetCoords: ', targetCoords);
+    console.log('coordLength: ', coordLength);
     if (coordLength > 2) {
-      coords[0] = +coordLength.toString().slice(0, 2);
-      coords[1] = +coordLength.toString().slice(2);
+      coords[0] = +targetCoords.toString().slice(0, 2);
+      coords[1] = +targetCoords.toString().slice(2);
     } else {
-      coords[0] = +coordLength.toString().slice(0, 1);
-      coords[1] = +coordLength.toString().slice(1);
+      coords[0] = +targetCoords.toString().slice(0, 1);
+      coords[1] = +targetCoords.toString().slice(1);
     }
+    console.log('coords: ', coords);
     return coords;
 
   }
@@ -123,6 +125,8 @@ export class FleetPlacingService {
   toogleTheCookie(idComing, targetCoords, contCookieComing) {
     const rowCoord = this.checkTheCoordLength(targetCoords)[0];
     const colCoord = this.checkTheCoordLength(targetCoords)[1];
+    console.log('rowCoord: ', rowCoord);
+    console.log('colCoord: ', colCoord);
     console.log('idComing: ', idComing);
     console.log('targetCoords: ', targetCoords);
     console.log('contCookieComing: ', contCookieComing);
