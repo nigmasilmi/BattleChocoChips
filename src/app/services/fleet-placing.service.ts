@@ -103,20 +103,40 @@ export class FleetPlacingService {
     return this.settedRows;
   }
 
+
+  checkTheCoordLength(targetCoords) {
+    const coords = [];
+    const coordLength = targetCoords.lenght;
+    if (coordLength > 2) {
+      coords[0] = +coordLength.toString().slice(0, 2);
+      coords[1] = +coordLength.toString().slice(2);
+    } else {
+      coords[0] = +coordLength.toString().slice(0, 1);
+      coords[1] = +coordLength.toString().slice(1);
+    }
+    return coords;
+
+  }
   // switches from with-cookie to without-cookie and viceversa
   // updates the values in firestore
   toogleTheCookie(idComing, targetCoords, contCookieComing) {
+    const rowCoord = this.checkTheCoordLength(targetCoords)[0];
+    const colCoord = this.checkTheCoordLength(targetCoords)[1];
     console.log('idComing: ', idComing);
     console.log('targetCoords: ', targetCoords);
     console.log('contCookieComing: ', contCookieComing);
-    if (contCookieComing === 0) {
-      console.log('something por ahora');
-      // return this.afs.collection('boards').doc(`${idComing}`).update({boardng})
-      // change the value of the target
+    // if (contCookieComing === 0) {
+    //   const data = {
+    //     board : {
+    //       [rowCoord] : { `${colCoord}.withCookie`: 1},
+    //     },
+    //   };
+    //   return this.afs.collection('boards').doc(`${idComing}`).update({ data });
+    //   // change the value of the target
       // fetch the document with the id
       // find the coordinate
       // substitute de property's value
-    }
+    // }
   }
 
 }
