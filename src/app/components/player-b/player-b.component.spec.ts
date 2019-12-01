@@ -22,4 +22,9 @@ describe('PlayerBComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should receive the oponent´s data', () => {
+    
+  })
+
 });
