@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, Validators,  FormGroup } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Board } from '../models/board';
 
@@ -18,9 +18,9 @@ export class FleetPlacingService {
   settedColumns: number;
   // reactive form construction
   preferencesForm = new FormGroup({
-    playerName: new FormControl(''),
-    colsInput: new FormControl(''),
-    rowsInput: new FormControl(''),
+    playerName: new FormControl('', [Validators.required]),
+    colsInput: new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]),
+    rowsInput: new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]),
 
   });
 

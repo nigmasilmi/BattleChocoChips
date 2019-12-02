@@ -7,6 +7,8 @@ import { FleetPlacingService } from 'src/app/services/fleet-placing.service';
   styleUrls: ['./game-board.component.css']
 })
 export class GameBoardComponent implements OnInit {
+  iGoWithA = true;
+  iGoWithB = true;
   playerName: string;
   colsInput: number;
   rowsInput: number;
@@ -16,6 +18,30 @@ export class GameBoardComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  // fuction to select the player and display player options
+  goWithA() {
+    this.iGoWithB = false;
+  }
+
+  goWithB() {
+    this.iGoWithA = false;
+  }
+
+
+  // get inputs to validate them -- Player A -- check if later on this functionality must be moved or not
+  get playerNameInput() {
+    return this.fleetPlacingS.preferencesForm.get('playerName');
+  }
+
+  get colsNumber() {
+    return this.fleetPlacingS.preferencesForm.get('colsInput');
+  }
+
+  get rowsNumber() {
+    return this.fleetPlacingS.preferencesForm.get('rowsInput');
+  }
+
 
   onSubmit() {
     const playerNameToPass = this.fleetPlacingS.preferencesForm.value.playerName;
