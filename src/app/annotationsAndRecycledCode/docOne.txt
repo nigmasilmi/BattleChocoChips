@@ -1,0 +1,40 @@
+toogleTheCookie(idComing, targetCoords, contCookieComing) {
+    // let data = {};
+    const rowCoord = this.checkTheCoordLength(targetCoords)[0];
+    const colCoord = this.checkTheCoordLength(targetCoords)[1];
+    console.log(' typeof rowCoord: ', typeof(rowCoord));
+
+    console.log('rowCoord: ', rowCoord);
+    console.log('colCoord: ', colCoord);
+    console.log('idComing: ', idComing);
+    console.log('targetCoords: ', targetCoords);
+    console.log('contCookieComing: ', contCookieComing);
+    if (contCookieComing === 0) {
+      console.log('nada por ahora');
+      // 1. entrar al documento específico
+      // 2. acceder a la propiedad withCookie de interés:
+      // 2.1 entrar a la propiedad board cuyo valor es un mapa
+      // { board: }
+      // 2.2 entrar a la propiedad  cuya key es igual al número de la fila (rowCoord)
+      // { board: `[${rowCoord}]` }
+      // 2.3 recorrer el arreglo hasta el índice cuyo valor es el número de la columna (colCoord)
+      // { board: `[${rowCoord}]` `[${colCoord}]`}
+      // 2.4 acceder a la propiedad withCookie del mapa contenido en la posición
+      // { board: `[${rowCoord}]` `[${colCoord}]`.withCooke}
+      // 2.5 modificar el valor de la propiedad withCookie
+      // { board: `[${rowCoord}]` `[${colCoord}]`.withCooke = 1}
+      // 2.6 ejecutar el método update enviando en el cuerpo la data necesaria (pasos 2.1 - 2.5)
+      // return this.afs.collection('boards').doc(`${idComing}`).update({ board: [rowCoord] = 1} );
+      // return this.afs.collection('boards').doc(`${idComing}`).update({ board: [rowCoord][colCoord].withCooke = 1} );
+
+    } else if (contCookieComing === 1) {
+      console.log('otro nada por ahora');
+    } else {
+      console.log('enviar mensaje al usuario con: no puede modificar el estado de esta casilla');
+    }
+
+  }
+
+  /////////////////////////////////////////////
+
+  

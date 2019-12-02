@@ -12,9 +12,11 @@ import { Board } from '../models/board';
 export class FleetPlacingService {
 
   board = {};
+  localBoard: any;
   actualPlayer = '';
   oponentPlayer = '';
   settedRows: number;
+  settedColumns: number;
   // reactive form construction
   preferencesForm = new FormGroup({
     playerName: new FormControl(''),
@@ -35,6 +37,7 @@ export class FleetPlacingService {
     // create a 2d array that represents the player board with the number of c and r as arguments
     // tslint:disable-next-line: prefer-for-of
     this.settedRows = rows;
+    this.settedColumns = columns;
     for (let r = 0; r < rows; r++) {
       this.board[r] = [];
       for (let c = 0; c < columns; c++) {
@@ -47,10 +50,13 @@ export class FleetPlacingService {
       }
 
     }
+    // save the localBoard
+    this.localBoard = this.board;
     // saves in firestore
     const dataToSave = { board: this.board, player: playerName };
     this.saveBoardInFirestore(dataToSave);
   }
+
 
 
   // fuction that assigns 1 or 0,  1 for placing cookie, 0 for not placing it
@@ -201,22 +207,59 @@ export class FleetPlacingService {
     return this.settedRows;
   }
 
+
+  // extracts the coordinates depending on the number of rows x cols
+  checkTheCoordLength(targetCoords) {
+    const coords = [];
+    const coordLength = targetCoords.toString().length;
+    console.log('targetCoords: ', targetCoords);
+    console.log('coordLength: ', coordLength);
+    if (coordLength > 2) {
+      coords[0] = +targetCoords.toString().slice(0, 2);
+      coords[1] = +targetCoords.toString().slice(2);
+    } else {
+      coords[0] = +targetCoords.toString().slice(0, 1);
+      coords[1] = +targetCoords.toString().slice(1);
+    }
+    console.log('coords: ', coords);
+    return coords;
+
+  }
+
+  // fuction to update the local board
+
+
+
+
   // switches from with-cookie to without-cookie and viceversa
   // updates the values in firestore
-  toogleTheCookie(idComing, targetCoords, contCookieComing) {
-    console.log('idComing: ', idComing);
-    console.log('targetCoords: ', targetCoords);
-    console.log('contCookieComing: ', contCookieComing);
-    if (contCookieComing === 0) {
-      console.log('something por ahora');
-      // return this.afs.collection('boards').doc(`${idComing}`).update({boardng})
-      // change the value of the target
-      // fetch the document with the id
-      // find the coordinate
-      // substitute de property's value
+  toogleTheCookie(idComing, targetCoords, contCookieComing, hittedComming, eatenComing) {
+    const rowCoord = this.checkTheCoordLength(targetCoords)[0];
+    const colCoord = this.checkTheCoordLength(targetCoords)[1];
+
+    for (let r = 0; r < this.settedRows; r++) {
+      // this.localBoard[r] = [];
+      for (let c = 0; c < this.settedColumns; c++) {
+        if (this.localBoard[r][c] === this.localBoard[rowCoord][colCoord]) {
+          if (contCookieComing === 0) {
+            this.localBoard[r][c] = {
+              coordinates: `${r}${c}`,
+              withCookie: 1,
+              hitted: hittedComming,
+              eaten: eatenComing
+            };
+          } else {
+            this.localBoard[r][c] = {
+              coordinates: `${r}${c}`,
+              withCookie: 0,
+              hitted: hittedComming,
+              eaten: eatenComing
+            };
+          }
+        }
+      }
     }
+    return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard} );
   }
 
 }
-
-
