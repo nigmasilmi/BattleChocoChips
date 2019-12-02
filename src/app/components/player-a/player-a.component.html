@@ -1,8 +1,7 @@
 <div class="cookieJelly" *ngIf="permissionToRender">
   <div *ngFor="let info of playerABoard">
-    Jugador A: {{info.player}}
+    Jugador A: {{info.player}} <br>
     Id tablero: {{info.id}}
-    tablero: temporal: {{ info.board }}
     <div class="cookieJar" *ngFor="let row of info.board; index as i">
       <div *ngIf="settedRows > i">
         <div (click)="cookieToggler(info.id, obj.coordinates, obj.withCookie, obj.hitted, obj.eaten)" class="cookieSlot" *ngFor="let obj of row">
