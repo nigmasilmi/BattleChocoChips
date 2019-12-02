@@ -129,10 +129,6 @@ export class FleetPlacingService {
   }
 
   // fuction to update the local board
-
-
-
-
   // switches from with-cookie to without-cookie and viceversa
   // updates the values in firestore
   toogleTheCookie(idComing, targetCoords, contCookieComing, hittedComming, eatenComing) {
