@@ -2,6 +2,7 @@
   <div *ngFor="let info of playerABoard">
     Jugador A: {{info.player}}
     Id tablero: {{info.id}}
+    <!-- <a routerLink="/boardB">Ver oponente </a> -->
     <div class="cookieJar" *ngFor="let row of info.board; index as i">
       <div *ngIf="settedRows > i">
         <div (click)="cookieToggler(info.id, obj.coordinates, obj.withCookie)" class="cookieSlot" *ngFor="let obj of row">

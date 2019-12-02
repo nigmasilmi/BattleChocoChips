@@ -13,6 +13,7 @@ export class FleetPlacingService {
 
   board = {};
   actualPlayer = '';
+  oponentPlayer = '';
   settedRows: number;
   // reactive form construction
   preferencesForm = new FormGroup({
@@ -23,9 +24,13 @@ export class FleetPlacingService {
   });
 
 
-
   constructor(private afs: AngularFirestore) { }
 
+
+  // Sugerencia de diseño para testeo:
+  //      createBoard() retorne dataToSave{}
+  //      desde el lugar donde se llama a createBoard() se debería pasar a la
+  //       función saveBoardInFiresore() el objeto correspondiente.
   createBoard(rows: number, columns: number, playerName: string) {
     // create a 2d array that represents the player board with the number of c and r as arguments
     // tslint:disable-next-line: prefer-for-of
@@ -97,6 +102,99 @@ export class FleetPlacingService {
         });
       }));
   }
+
+  // RETRIEVE BOARD (based on player B)
+  // must search a player different to player A
+
+  // retrieveBoardPlayerB() {
+  //   const targetPlayer = this.oponentPlayer;
+  //   return this.afs.collection(
+  //     'boards', ref => ref.where('player', '==', `${targetPlayer}`))
+  //     .snapshotChanges().pipe(map(changes => {
+  //       return changes.map(a => {
+  //         const boarDataComing = a.payload.doc.data() as Board;
+  //         console.log('esto es boarDataComing: ', boarDataComing);
+  //         boarDataComing.id = a.payload.doc.id;
+  //         const boarData = [];
+  //         for (const obj in boarDataComing.board) {
+  //           if (obj) {
+  //             boarData.push(boarDataComing.board[obj]);
+  //           }
+  //         }
+  //         boarDataComing.board = boarData;
+  //         console.log('boarDataComing.board:', boarDataComing.board);
+  //         console.log('boarData:', boarData);
+  //         return boarDataComing;
+  //       });
+  //     }));
+  // }
+
+
+  // Por algún motivo hermoso y desconocido, dejo de funcionar.
+  // choosePlayerB() {
+  //   console.log('===== PLAYER B =====');
+  //   // Obtener datos de collection para elegir un jugador B
+  //   const targetPlayer = this.actualPlayer;
+  //   // lo que sigue me funcionaba durante el día, pero después de volver
+  //   // de ensayo ahora sólo me muestra un elemento de la colección guardada
+  //   // en firebase y no sé por qué =_=
+  //   // en lugar de guardar todos los elementos de la colección en boardsCollection,
+  //   // guarda solo uno
+  //   this.afs.collection('boards').snapshotChanges().subscribe((querySnapshot) => {
+  //     let boardsCollection = [];
+  //     console.log('querySnapshot.forEach');
+      
+  //     querySnapshot.forEach((doc) => {
+  //       console.log(doc);
+        
+  //       boardsCollection.push({
+  //         id: doc.payload.doc.id,
+  //         data: doc.payload.doc.data
+  //       });
+  //     });
+  //     console.log('boardsCollection.length: ',boardsCollection.length);
+      
+  //     boardsCollection.forEach((element) => {
+  //       console.log(element.id, ' ', element.data);
+  //     })
+
+  //     // elegir un número al azar entre 0 y el largo del arreglo local
+  //     const rndNumber = this.randomNumber(boardsCollection.length);
+  //     console.log('randomNumber: ', rndNumber);
+  //     // ver al jugador al que le corresponde el número
+  //     console.log(boardsCollection[rndNumber[0]]);
+  //     console.log('nombre jugador ', rndNumber, ' ', boardsCollection[rndNumber[0]].data.player);
+  //     // si el jugador es el actual, elegir otro número
+  //     for(let i = 0; i < rndNumber.length; i++) {
+  //       if (boardsCollection[rndNumber[i]].data.player != targetPlayer ) {
+  //         this.oponentPlayer = boardsCollection[rndNumber[i]].data.player;
+  //         break;
+  //       }
+  //     }
+  //     console.log(this.oponentPlayer);
+  //   });
+
+  // }
+
+  // Si lo usamos, debería estar en otro servicio
+  randomNumber(range: number) { // retorna array de números del 0 al rango indicado en orden azaroso
+    console.log('range: ', range);
+    
+    let numbers = [];
+    for(let i = 0; i < range; i++) {
+      numbers.push(i);
+      i++;
+    }
+    console.log('numbers: ', numbers);
+    
+    return this.shuffle(numbers);
+  }
+
+  // Si lo usamos, debería estar en otro servicio
+  shuffle(array) {
+    for(let j, x, i = array.length; i; j = (Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
+    return array;
+  };
 
   // stablishes the limit to render each row in the board grid
   limiTheRows() {
