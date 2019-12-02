@@ -12,7 +12,7 @@ export class GameBoardComponent implements OnInit {
   rowsInput: number;
   playerIsSet = false;
 
-  constructor(private fleetPlacingS: FleetPlacingService) { }
+  constructor(public fleetPlacingS: FleetPlacingService) { }
 
   ngOnInit() {
   }
