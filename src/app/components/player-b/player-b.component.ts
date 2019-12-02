@@ -1,6 +1,6 @@
+
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
-
 
 @Component({
   selector: 'app-player-b',
@@ -8,7 +8,8 @@ import { FleetPlacingService } from '../../services/fleet-placing.service';
   styleUrls: ['./player-b.component.css']
 })
 export class PlayerBComponent implements OnInit, AfterViewInit {
-
+  // Mija, ayudame después a entender cómo usar el ViewChild porfa. 
+  // Estoy abrumada yo creo que por contingencia y no ando bien mentalmente
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
   permissionToRender = false;
   settedRows: number;
@@ -16,6 +17,7 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
   withCookie = false;
 
   constructor(private fleetPlacingS: FleetPlacingService) {
+    // this.fleetPlacingS.choosePlayerB();
     this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
       this.playerBBoard = whatComes;
       console.log('this is playerABoard now: ', this.playerBBoard);
@@ -26,10 +28,10 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.settedRows = this.fleetPlacingS.limiTheRows();
-
   }
 
   ngAfterViewInit() {}
+
 
   // function that sets the styles for occupied or not depending of the boolean value at the moment
   setTheSquare(isThereACookie) {
@@ -43,7 +45,6 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
   cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
     this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
   }
-
 
 }
 
