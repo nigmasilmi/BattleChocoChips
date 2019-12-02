@@ -12,8 +12,10 @@ import { Board } from '../models/board';
 export class FleetPlacingService {
 
   board = {};
+  localBoard: any;
   actualPlayer = '';
   settedRows: number;
+  settedColumns: number;
   // reactive form construction
   preferencesForm = new FormGroup({
     playerName: new FormControl(''),
@@ -30,6 +32,7 @@ export class FleetPlacingService {
     // create a 2d array that represents the player board with the number of c and r as arguments
     // tslint:disable-next-line: prefer-for-of
     this.settedRows = rows;
+    this.settedColumns = columns;
     for (let r = 0; r < rows; r++) {
       this.board[r] = [];
       for (let c = 0; c < columns; c++) {
@@ -42,10 +45,13 @@ export class FleetPlacingService {
       }
 
     }
+    // save the localBoard
+    this.localBoard = this.board;
     // saves in firestore
     const dataToSave = { board: this.board, player: playerName };
     this.saveBoardInFirestore(dataToSave);
   }
+
 
 
   // fuction that assigns 1 or 0,  1 for placing cookie, 0 for not placing it
@@ -104,6 +110,7 @@ export class FleetPlacingService {
   }
 
 
+  // extracts the coordinates depending on the number of rows x cols
   checkTheCoordLength(targetCoords) {
     const coords = [];
     const coordLength = targetCoords.toString().length;
@@ -120,30 +127,41 @@ export class FleetPlacingService {
     return coords;
 
   }
+
+  // fuction to update the local board
+
+
+
+
   // switches from with-cookie to without-cookie and viceversa
   // updates the values in firestore
-  toogleTheCookie(idComing, targetCoords, contCookieComing) {
-    // let data = {};
+  toogleTheCookie(idComing, targetCoords, contCookieComing, hittedComming, eatenComing) {
     const rowCoord = this.checkTheCoordLength(targetCoords)[0];
     const colCoord = this.checkTheCoordLength(targetCoords)[1];
-    console.log('rowCoord: ', rowCoord);
-    console.log('colCoord: ', colCoord);
-    console.log('idComing: ', idComing);
-    console.log('targetCoords: ', targetCoords);
-    console.log('contCookieComing: ', contCookieComing);
-    if (contCookieComing === 0) {
-      console.log('nada por ahora');
-      // data = `board.${rowCoord}.colCoord.withCookie`;
-    }
 
-    // return this.afs.collection('boards').doc(`${idComing}`).update({ data });
-    //   // change the value of the target
-    // fetch the document with the id
-    // find the coordinate
-    // substitute de property's value
-    // }
+    for (let r = 0; r < this.settedRows; r++) {
+      // this.localBoard[r] = [];
+      for (let c = 0; c < this.settedColumns; c++) {
+        if (this.localBoard[r][c] === this.localBoard[rowCoord][colCoord]) {
+          if (contCookieComing === 0) {
+            this.localBoard[r][c] = {
+              coordinates: `${r}${c}`,
+              withCookie: 1,
+              hitted: hittedComming,
+              eaten: eatenComing
+            };
+          } else {
+            this.localBoard[r][c] = {
+              coordinates: `${r}${c}`,
+              withCookie: 0,
+              hitted: hittedComming,
+              eaten: eatenComing
+            };
+          }
+        }
+      }
+    }
+    return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard} );
   }
 
 }
-
-
