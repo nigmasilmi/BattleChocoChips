@@ -55,7 +55,7 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
       }, 3000);
     }
   }
-}
+
 
   startGame() {
     this.gameStarted = true;
