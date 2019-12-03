@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FormControl, Validators,  FormGroup } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Board } from '../models/board';
 
@@ -17,6 +17,8 @@ export class FleetPlacingService {
   settedRows: number;
   settedColumns: number;
   commandToDissapear = false;
+  allowTheseCookies: number;
+  cookieCounter: number;
 
   // reactive form construction
   preferencesForm = new FormGroup({
@@ -28,9 +30,16 @@ export class FleetPlacingService {
 
 
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(private afs: AngularFirestore) {
+    this.cookieCounter = 0;
+
+   }
 
   createBoard(rows: number, columns: number, playerName: string) {
+    // calculate the cookie percentage allowed for the board
+    const cookiesAllowed = Math.floor(rows * columns * 0.3);
+    this.allowTheseCookies = cookiesAllowed;
+    console.log(cookiesAllowed);
     // create a 2d array that represents the player board with the number of c and r as arguments
     // tslint:disable-next-line: prefer-for-of
     this.settedRows = rows;
@@ -40,7 +49,7 @@ export class FleetPlacingService {
       for (let c = 0; c < columns; c++) {
         this.board[r][c] = {
           coordinates: `${r}${c}`,
-          withCookie: this.placeCookieOrNot(),
+          withCookie: this.placeCookieOrNot(this.cookieCounter),
           hitted: 0,
           eaten: 0
         };
@@ -50,21 +59,31 @@ export class FleetPlacingService {
     // save the localBoard
     this.localBoard = this.board;
     // saves in firestore
-    const dataToSave = { board: this.board, player: playerName };
+    const dataToSave = { board: this.board, player: playerName, fleetNumber: this.allowTheseCookies };
     this.saveBoardInFirestore(dataToSave);
   }
 
 
 
   // fuction that assigns 1 or 0,  1 for placing cookie, 0 for not placing it
-  placeCookieOrNot() {
-    const numberA = Math.random();
-    const numberB = Math.random();
-    if (numberA > numberB) {
+  placeCookieOrNot(cookiesAreNumbered) {
+    const cookieLimit = this.allowTheseCookies;
+    console.log('this is the cookieLimit: ', cookieLimit);
+    if (cookiesAreNumbered < cookieLimit) {
+      console.log('counter: ', this.cookieCounter);
+      const numberA = Math.random();
+      const numberB = Math.random();
+      if (numberA > numberB) {
+        return 0;
+      } else {
+        this.cookieCounter++ ;
+        return 1;
+      }
+
+    }else{
       return 0;
-    } else {
-      return 1;
     }
+
   }
 
   // CREATE BOARD (with player name)
@@ -159,7 +178,7 @@ export class FleetPlacingService {
         }
       }
     }
-    return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard} );
+    return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard });
   }
 
 }

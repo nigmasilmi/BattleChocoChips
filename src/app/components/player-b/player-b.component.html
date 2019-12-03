@@ -2,6 +2,7 @@
   <div *ngFor="let info of playerBBoard">
     Jugador B: {{info.player}}<br>
     Id tablero: {{info.id}}
+    Flota de galletas: {{info.fleetNumber}}
     <div class="containerBoard">
       <div class="cookieJar" *ngFor="let row of info.board; index as i">
         <div *ngIf="settedRows > i">

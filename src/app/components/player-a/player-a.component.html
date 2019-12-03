@@ -2,6 +2,7 @@
   <div *ngFor="let info of playerABoard">
     Jugador A: {{info.player}} <br>
     Id tablero: {{info.id}}
+    Flota de galletas: {{info.fleetNumber}}
     <!-- <a routerLink="/boardB">Ver oponente </a> -->
     <div class="containerBoard">
       <div class="cookieJar" *ngFor="let row of info.board; index as i">
