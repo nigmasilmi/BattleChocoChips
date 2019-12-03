@@ -16,6 +16,7 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
   gameStarted = false;
   alreadyStartedMsg = false;
   btnAppear = true;
+  noMoreCookies: boolean;
 
   constructor(private fleetPlacingS: FleetPlacingService) {
     // this.fleetPlacingS.choosePlayerB();
@@ -60,6 +61,8 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
   startGame() {
     this.gameStarted = true;
     this.btnAppear = false;
+    this.noMoreCookies = false;
+
   }
 
 

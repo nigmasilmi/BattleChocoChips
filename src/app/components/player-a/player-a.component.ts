@@ -16,24 +16,28 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   gameStarted = false;
   alreadyStartedMsg = false;
   btnAppear = true;
+  noMoreCookies: boolean;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
 
   constructor(private fleetPlacingS: FleetPlacingService) {
     this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
       this.playerABoard = whatComes;
-      console.log('this is playerABoard now: ', this.playerABoard);
       this.permissionToRender = true;
 
     });
+
   }
 
   ngOnInit() {
     this.settedRows = this.fleetPlacingS.limiTheRows();
 
+
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+
+  }
 
   // function that sets the styles for occupied or not depending of the boolean value at the moment
   setTheSquare(isThereACookie) {
@@ -58,6 +62,7 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   startGame() {
     this.gameStarted = true;
     this.btnAppear = false;
+    this.noMoreCookies = false;
   }
 
 

@@ -19,6 +19,7 @@ export class FleetPlacingService {
   commandToDissapear = false;
   allowTheseCookies: number;
   cookieCounter: number;
+  stoPlacingTheCookie: boolean;
 
   // reactive form construction
   preferencesForm = new FormGroup({
@@ -33,7 +34,7 @@ export class FleetPlacingService {
   constructor(private afs: AngularFirestore) {
     this.cookieCounter = 0;
 
-   }
+  }
 
   createBoard(rows: number, columns: number, playerName: string) {
     // calculate the cookie percentage allowed for the board
@@ -76,11 +77,11 @@ export class FleetPlacingService {
       if (numberA > numberB) {
         return 0;
       } else {
-        this.cookieCounter++ ;
+        this.cookieCounter++;
         return 1;
       }
 
-    }else{
+    } else {
       return 0;
     }
 
@@ -155,12 +156,13 @@ export class FleetPlacingService {
   toogleTheCookie(idComing, targetCoords, contCookieComing, hittedComming, eatenComing) {
     const rowCoord = this.checkTheCoordLength(targetCoords)[0];
     const colCoord = this.checkTheCoordLength(targetCoords)[1];
-
+    const mayIPlaceAnotherCookie = this.keepCookiesConstant();
+    this.stoPlacingTheCookie = this.keepCookiesConstant();
     for (let r = 0; r < this.settedRows; r++) {
       // this.localBoard[r] = [];
       for (let c = 0; c < this.settedColumns; c++) {
         if (this.localBoard[r][c] === this.localBoard[rowCoord][colCoord]) {
-          if (contCookieComing === 0) {
+          if (contCookieComing === 0 && mayIPlaceAnotherCookie) {
             this.localBoard[r][c] = {
               coordinates: `${r}${c}`,
               withCookie: 1,
@@ -180,5 +182,37 @@ export class FleetPlacingService {
     }
     return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard });
   }
+
+  // function that keeps the max cookies number when the player rearranges them
+  keepCookiesConstant() {
+    let countingCookies = 0;
+    // traer el número límite de cookies
+    const cookiesLimit = this.allowTheseCookies;
+    console.log('this is localBoard: ', this.localBoard);
+    // iterar localBoard, contar cuantas withCookie = 1 tenemos
+    // entrar a los objetos
+    for (const arr in this.localBoard) {
+      if (arr) {
+        console.log('localBoard[arr]: ', this.localBoard[arr]);
+        // entrar a los arreglos
+        this.localBoard[arr].forEach(obj => {
+          // entrar a los objetos
+          if (obj.withCookie === 1) {
+            countingCookies++;
+          }
+        });
+      }
+    }
+    // verificar si la cantidad de cookies presente supera al límite
+    if (countingCookies >= cookiesLimit) {
+      // dar señal para mostrar mensaje
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+
+
 
 }
