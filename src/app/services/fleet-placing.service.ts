@@ -16,6 +16,8 @@ export class FleetPlacingService {
   actualPlayer = '';
   settedRows: number;
   settedColumns: number;
+  commandToDissapear = false;
+
   // reactive form construction
   preferencesForm = new FormGroup({
     playerName: new FormControl('', [Validators.required]),

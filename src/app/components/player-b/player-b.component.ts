@@ -8,13 +8,14 @@ import { FleetPlacingService } from '../../services/fleet-placing.service';
   styleUrls: ['./player-b.component.css']
 })
 export class PlayerBComponent implements OnInit, AfterViewInit {
-  // Mija, ayudame después a entender cómo usar el ViewChild porfa. 
-  // Estoy abrumada yo creo que por contingencia y no ando bien mentalmente
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
   permissionToRender = false;
   settedRows: number;
   playerBBoard = [];
   withCookie = false;
+  gameStarted = false;
+  alreadyStartedMsg = false;
+  btnAppear = true;
 
   constructor(private fleetPlacingS: FleetPlacingService) {
     // this.fleetPlacingS.choosePlayerB();
@@ -45,8 +46,22 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
   }
 
   cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
+    if (this.gameStarted === false) {
     this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
+  } else {
+      this.alreadyStartedMsg = true;
+      setTimeout(() => {
+        this.alreadyStartedMsg = false;
+      }, 3000);
+    }
   }
+}
+
+  startGame() {
+    this.gameStarted = true;
+    this.btnAppear = false;
+  }
+
 
 }
 

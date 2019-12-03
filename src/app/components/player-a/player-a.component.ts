@@ -13,6 +13,9 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   settedRows: number;
   playerABoard = [];
   withCookie = false;
+  gameStarted = false;
+  alreadyStartedMsg = false;
+  btnAppear = true;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
 
@@ -42,7 +45,19 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   }
 
   cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
-    this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
+    if (this.gameStarted === false) {
+      this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
+    } else {
+      this.alreadyStartedMsg = true;
+      setTimeout(() => {
+        this.alreadyStartedMsg = false;
+      }, 3000);
+    }
+  }
+
+  startGame() {
+    this.gameStarted = true;
+    this.btnAppear = false;
   }
 
 

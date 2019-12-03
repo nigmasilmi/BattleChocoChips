@@ -14,3 +14,6 @@
   </div>
   </div>
 </div>
+<div *ngIf="btnAppear" class="goAhead">Para reubicar tu flota, haz click sobre la casilla, una vez estés conforme, pulsa "iniciar partida"</div>
+<button *ngIf="btnAppear" (click)="startGame()">Iniciar Partida</button>
+<div *ngIf="alreadyStartedMsg" class="errorMsg">Ya no puedes cambiar tu flota de posición, la batalla comenzó</div>
