@@ -30,7 +30,9 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
     this.settedRows = this.fleetPlacingS.limiTheRows();
   }
 
-  ngAfterViewInit() {}
+  ngAfterViewInit() {
+
+  }
 
 
   // function that sets the styles for occupied or not depending of the boolean value at the moment
