@@ -1,4 +1,127 @@
 /* You can add global styles to this file, and also import other style files */
-body{
+body {
     font-family: 'Baloo Bhai', cursive;
+}
+
+.ocuppied{
+    background: brown;
+    border: solid 2px #ffffff;
+}
+
+.empty{
+    background: skyblue;
+    border: solid 2px #ffffff;
+
+}
+
+.cookieJelly{
+    display: flex;
+    flex-direction: column;
+}
+
+.containerBoard {
+    max-width: 38%; /* Porcentaje en relación con el contenedor padre */
+    /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
+}
+
+.cookieJar{
+    display: flex;
+    flex-direction: column;
+    border: 2px solid pink;
+    justify-content: space-evenly;
+    align-items: normal;
+}
+
+.cookieSlot{
+    display: inline-block;
+    border: 2px solid black;
+    /* padding: 2%;
+    margin: 1%; */
+    max-height: 100%; /* Porcentaje en relación con el contenedor padre */
+        /* de esta manera caben máx 8 .cookieSlot en una fila */
+}
+
+@media all and (max-width:300px) and (min-width:245px) {
+    .containerBoard {
+        max-width: 100%; /* Porcentaje en relación con el contenedor padre */
+        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
+    }
+
+    .cookieJar {
+        align-items: center;
+    }
+
+    .ocuppied, .empty {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media all and (max-width:398px) and (min-width:300px) {
+    .containerBoard {
+        max-width: 100%; /* Porcentaje en relación con el contenedor padre */
+        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
+    }
+
+    .cookieJar {
+        align-items: center;
+    }
+
+    .ocuppied, .empty {
+        width: 27px;
+        height: 27px;
+    }
+}
+
+@media all and (max-width:495px) and (min-width:398px) {
+    .containerBoard {
+        max-width: 100%; /* Porcentaje en relación con el contenedor padre */
+        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
+    }
+
+    .cookieJar {
+        align-items: center;
+    }
+
+    .ocuppied, .empty {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media all and (max-width:765px) and (min-width:495px) {
+    .containerBoard {
+        max-width: 100%; /* Porcentaje en relación con el contenedor padre */
+        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
+    }
+
+    .cookieJar {
+        align-items: center;
+    }
+
+    .ocuppied, .empty {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+@media all and (max-width:872px) and (min-width:765px) {
+    .ocuppied, .empty {
+        width: 27px;
+        height: 27px;
+    }
+}
+
+@media all and (max-width:1049px) and (min-width:872px) {
+    .ocuppied, .empty {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@media all and (min-width:1049px) {
+    .ocuppied, .empty {
+        width: 40px;
+        height: 40px;
+    }
 }

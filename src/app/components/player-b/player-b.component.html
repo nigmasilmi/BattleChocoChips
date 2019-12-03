@@ -2,15 +2,17 @@
   <div *ngFor="let info of playerBBoard">
     Jugador B: {{info.player}}
     Id tablero: {{info.id}}
-    <div class="cookieJar" *ngFor="let row of info.board; index as i">
-      <div *ngIf="settedRows > i">
-        <div (click)="cookieToggler(info.id, obj.coordinates, obj.withCookie, obj.hitted, obj.eaten)" class="cookieSlot"
-          *ngFor="let obj of row">
+    <div class="containerBoard">
+      <div class="cookieJar" *ngFor="let row of info.board; index as i">
+        <div *ngIf="settedRows > i">
+          <div (click)="cookieToggler(info.id, obj.coordinates, obj.withCookie, obj.hitted, obj.eaten)" class="cookieSlot"
+            *ngFor="let obj of row">
 
-          <div [ngClass]="setTheSquare(obj.withCookie)">{{obj.coordinates}}</div>
+            <div [ngClass]="setTheSquare(obj.withCookie)">{{obj.coordinates}}</div>
+          </div>
         </div>
       </div>
-    </div>
+  </div>
   </div>
 </div>
 <div #paboard></div>
