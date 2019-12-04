@@ -19,7 +19,7 @@ import { GameBoardComponent } from './components/game-board/game-board.component
     AppComponent,
     PlayerAComponent,
     PlayerBComponent,
-    GameBoardComponent
+    GameBoardComponent,
   ],
   imports: [
     BrowserModule,
