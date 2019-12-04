@@ -2,3 +2,8 @@
     font-size: 0.8em;
     color: orangered;
 }
+
+.inscription {
+    display: flex;
+    flex-direction: row;
+}

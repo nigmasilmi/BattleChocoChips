@@ -6,6 +6,7 @@
 <!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
 de la función -->
 <!-- JUGADOR A -->
+<div class="inscription">
 <div *ngIf="iGoWithA">
 <h3>Jugador A</h3>
 <form [formGroup]="this.fleetPlacingS.preferencesForm">
@@ -26,10 +27,11 @@ de la función -->
 <div *ngIf="playerIsSet">
   <a routerLink="/boardA">Ir al tablero </a>
 </div>
+<router-outlet></router-outlet>
 </div>
 
-<hr>
-<hr>
+<!-- <hr>
+<hr> -->
 
 <!-- JUGADOR B -->
 <div *ngIf="iGoWithB">
@@ -51,5 +53,7 @@ de la función -->
 </form>
 <div *ngIf="playerIsSet">
   <a routerLink="/boardB">Ir al tablero </a>
+</div>
+<router-outlet name="playerBoardB"></router-outlet>
 </div>
 </div>

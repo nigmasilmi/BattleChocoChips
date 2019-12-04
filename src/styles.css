@@ -20,7 +20,7 @@ body {
 }
 
 .containerBoard {
-    max-width: 38%; /* Porcentaje en relación con el contenedor padre */
+    max-width: 88%; /*era 38% */ /* Porcentaje en relación con el contenedor padre */
     /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
 }
 

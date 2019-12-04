@@ -14,7 +14,9 @@ export class GameBoardComponent implements OnInit {
   rowsInput: number;
   playerIsSet = false;
 
-  constructor(public fleetPlacingS: FleetPlacingService) { }
+  constructor(public fleetPlacingS: FleetPlacingService) {
+    this.fleetPlacingS.pushBoardsCollection();
+   }
 
   ngOnInit() {
   }

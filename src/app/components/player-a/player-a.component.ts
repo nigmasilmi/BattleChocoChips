@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
+import { Logs } from 'selenium-webdriver';
 
 @Component({
   selector: 'app-player-a',
@@ -24,15 +25,12 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
     this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
       this.playerABoard = whatComes;
       this.permissionToRender = true;
-
     });
 
   }
 
   ngOnInit() {
     this.settedRows = this.fleetPlacingS.limiTheRows();
-
-
   }
 
   ngAfterViewInit() {

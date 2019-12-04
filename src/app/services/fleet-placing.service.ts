@@ -14,12 +14,14 @@ export class FleetPlacingService {
   board = {};
   localBoard: any;
   actualPlayer = '';
+  
   settedRows: number;
   settedColumns: number;
   commandToDissapear = false;
   allowTheseCookies: number;
   cookieCounter: number;
   stoPlacingTheCookie: boolean;
+  boardsCollection: any = [];
 
   // reactive form construction
   preferencesForm = new FormGroup({
@@ -28,7 +30,6 @@ export class FleetPlacingService {
     rowsInput: new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]),
 
   });
-
 
 
   constructor(private afs: AngularFirestore) {
@@ -124,6 +125,35 @@ export class FleetPlacingService {
           return boarDataComing;
         });
       }));
+  }
+
+  pushBoardsCollection() {
+    console.log('====== CHOOSE PLAYER B ======');
+    // guardar en this.boardsCollection los id de todos los datos de jugadores
+    this.afs.collection('boards').snapshotChanges().subscribe((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // console.log(doc);
+        this.boardsCollection.push(doc.payload.doc.id);
+      });
+      console.log('this.boardsCollection: ', this.boardsCollection);
+    });
+    return this.boardsCollection;
+  }
+
+  shuffle(array) {
+    for(let j, x, i = array.length; i; j = (Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x);
+    return array;
+  };
+
+  choosePlayerB(IDPlayerA, IDsArray) {
+    let IDsRandomOrderArray = this.shuffle(IDsArray);
+    for(let i = 0; i < IDsRandomOrderArray.length; i++) {
+      if (IDPlayerA === IDsRandomOrderArray[i]) {
+        continue;
+      } else {
+        return IDsRandomOrderArray[i];
+      }
+    }
   }
 
   // stablishes the limit to render each row in the board grid
