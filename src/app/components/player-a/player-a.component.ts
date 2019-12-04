@@ -20,7 +20,7 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
 
-  constructor(private fleetPlacingS: FleetPlacingService) {
+  constructor(public fleetPlacingS: FleetPlacingService) {
     this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
       this.playerABoard = whatComes;
       this.permissionToRender = true;

@@ -18,7 +18,7 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
   btnAppear = true;
   noMoreCookies: boolean;
 
-  constructor(private fleetPlacingS: FleetPlacingService) {
+  constructor(public fleetPlacingS: FleetPlacingService) {
     // this.fleetPlacingS.choosePlayerB();
     this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
       this.playerBBoard = whatComes;
