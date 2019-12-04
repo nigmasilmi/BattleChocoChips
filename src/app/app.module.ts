@@ -13,7 +13,6 @@ import { AppComponent } from './app.component';
 import { PlayerAComponent } from './components/player-a/player-a.component';
 import { PlayerBComponent } from './components/player-b/player-b.component';
 import { GameBoardComponent } from './components/game-board/game-board.component';
-import { BattlefieldComponent } from './components/battlefield/battlefield.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,6 @@ import { BattlefieldComponent } from './components/battlefield/battlefield.compo
     PlayerAComponent,
     PlayerBComponent,
     GameBoardComponent,
-    BattlefieldComponent
   ],
   imports: [
     BrowserModule,
