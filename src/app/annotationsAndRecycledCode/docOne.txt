@@ -37,4 +37,68 @@ toogleTheCookie(idComing, targetCoords, contCookieComing) {
 
   /////////////////////////////////////////////
 
+  <h2>Selecciona tu jugador</h2>
+
+<button (click)="goWithA()" *ngIf="iGoWithA" type="submit">Jugador A</button>
+<button (click)="goWithB()" *ngIf="iGoWithB" type="submit">Jugador B</button>
+
+<!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
+de la función -->
+<!-- JUGADOR A -->
+<div *ngIf="iGoWithA">
+<h3>Jugador A</h3>
+<form [formGroup]="this.fleetPlacingS.preferencesForm">
+  <label for="playerNameId">Nombre del Jugador</label>
+  <input formControlName="playerName" type="text" id="playerNameId"><br>
+  <div class="errorMsg" *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un nombre de jugador</div>
+  <label for="rowsInputId">Cantidad de filas</label>
+  <input formControlName="rowsInput" type="number" id="rowsInputId"><br>
+  <div class="errorMsg" *ngIf="rowsNumber.errors?.min">El número de filas debe ser mayor a 1</div>
+  <div class="errorMsg" *ngIf="rowsNumber.errors?.max">El número de filas no puede ser mayor a 10</div>
+  <label for="colsInputId">Cantidad de columnas</label>
+  <input formControlName="colsInput" type="number" id="colsInputId"><br>
+  <div class="errorMsg" *ngIf="colsNumber.errors?.min">El número de columnas debe ser mayor a 1</div>
+  <div class="errorMsg" *ngIf="colsNumber.errors?.max">El número de columnas no puede ser mayor a 10</div>
+  <button (click)="onSubmit()" type="submit" [disabled]="!this.fleetPlacingS.preferencesForm.valid">Crear
+    Tablero</button>
+</form>
+<div *ngIf="playerIsSet">
+  <a routerLink="/boardA">Ir al tablero </a>
+</div>
+</div>
+
+<hr>
+<hr>
+
+<!-- JUGADOR B -->
+<div *ngIf="iGoWithB">
+<h3>Jugador B</h3>
+<form [formGroup]="this.fleetPlacingS.preferencesForm">
+  <label for="playerNameId">Nombre del Jugador</label>
+  <input formControlName="playerName" type="text" id="playerNameId"><br>
+  <label for="boardSelectId">Selecciona un tipo de tablero</label>
+  <select id="boardSelectId" formControlName="boardType">
+    <option *ngFor="let board of boardsPredefined; let i = index" [value]="boardsPredefined[i].label">
+      {{boardsPredefined[i].nivel}}
+    </option>
+  </select>
+  <div class="errorMsg" *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un nombre de jugador</div>
+  <label for="rowsInputId">Cantidad de filas</label>
+  <input formControlName="rowsInput" type="number" id="rowsInputId"><br>
+  <div class="errorMsg" *ngIf="rowsNumber.errors?.min">El número de filas debe ser mayor a 1</div>
+  <div class="errorMsg" *ngIf="rowsNumber.errors?.max">El número de filas no puede ser mayor a 10</div>
+  <label for="colsInputId">Cantidad de columnas</label>
+  <input formControlName="colsInput" type="number" id="colsInputId"><br>
+  <div class="errorMsg" *ngIf="colsNumber.errors?.min">El número de columnas debe ser mayor a 1</div>
+  <div class="errorMsg" *ngIf="colsNumber.errors?.max">El número de columnas no puede ser mayor a 10</div>
+  <button (click)="onSubmit()" type="submit" [disabled]="!this.fleetPlacingS.preferencesForm.valid">Crear
+    Tablero</button>
+</form>
+<div *ngIf="playerIsSet">
+  <a routerLink="/boardB">Ir al tablero </a>
+</div>
+</div>
+
+///////////////////////////////////////////////
+
   

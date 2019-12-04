@@ -12,15 +12,13 @@ de la función -->
   <label for="playerNameId">Nombre del Jugador</label>
   <input formControlName="playerName" type="text" id="playerNameId"><br>
   <div class="errorMsg" *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un nombre de jugador</div>
-  <label for="rowsInputId">Cantidad de filas</label>
-  <input formControlName="rowsInput" type="number" id="rowsInputId"><br>
-  <div class="errorMsg" *ngIf="rowsNumber.errors?.min">El número de filas debe ser mayor a 1</div>
-  <div class="errorMsg" *ngIf="rowsNumber.errors?.max">El número de filas no puede ser mayor a 10</div>
-  <label for="colsInputId">Cantidad de columnas</label>
-  <input formControlName="colsInput" type="number" id="colsInputId"><br>
-  <div class="errorMsg" *ngIf="colsNumber.errors?.min">El número de columnas debe ser mayor a 1</div>
-  <div class="errorMsg" *ngIf="colsNumber.errors?.max">El número de columnas no puede ser mayor a 10</div>
-  <button (click)="onSubmit()" type="submit" [disabled]="!this.fleetPlacingS.preferencesForm.valid">Crear
+  <label for="boardSelectId">Selecciona un tipo de tablero</label><br>
+  <select id="boardSelectId" formControlName="boardType">
+    <option *ngFor="let board of boardsPredefined; let i = index" [value]="boardsPredefined[i].label">
+      {{boardsPredefined[i].nivel}}
+    </option>
+  </select>
+  <button (click)="onSubmit()" type="submit">Crear
     Tablero</button>
 </form>
 <div *ngIf="playerIsSet">
@@ -37,16 +35,14 @@ de la función -->
 <form [formGroup]="this.fleetPlacingS.preferencesForm">
   <label for="playerNameId">Nombre del Jugador</label>
   <input formControlName="playerName" type="text" id="playerNameId"><br>
+  <label for="boardSelectId">Selecciona un tipo de tablero</label><br>
+  <select id="boardSelectId" formControlName="boardType">
+    <option *ngFor="let board of boardsPredefined; let i = index" [value]="boardsPredefined[i].label">
+      {{boardsPredefined[i].nivel}}
+    </option>
+  </select>
   <div class="errorMsg" *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un nombre de jugador</div>
-  <label for="rowsInputId">Cantidad de filas</label>
-  <input formControlName="rowsInput" type="number" id="rowsInputId"><br>
-  <div class="errorMsg" *ngIf="rowsNumber.errors?.min">El número de filas debe ser mayor a 1</div>
-  <div class="errorMsg" *ngIf="rowsNumber.errors?.max">El número de filas no puede ser mayor a 10</div>
-  <label for="colsInputId">Cantidad de columnas</label>
-  <input formControlName="colsInput" type="number" id="colsInputId"><br>
-  <div class="errorMsg" *ngIf="colsNumber.errors?.min">El número de columnas debe ser mayor a 1</div>
-  <div class="errorMsg" *ngIf="colsNumber.errors?.max">El número de columnas no puede ser mayor a 10</div>
-  <button (click)="onSubmit()" type="submit" [disabled]="!this.fleetPlacingS.preferencesForm.valid">Crear
+  <button (click)="onSubmit()" type="submit">Crear
     Tablero</button>
 </form>
 <div *ngIf="playerIsSet">

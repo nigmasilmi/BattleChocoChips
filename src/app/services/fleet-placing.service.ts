@@ -24,6 +24,7 @@ export class FleetPlacingService {
   // reactive form construction
   preferencesForm = new FormGroup({
     playerName: new FormControl('', [Validators.required]),
+    boardType: new FormControl([]),
     colsInput: new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]),
     rowsInput: new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]),
 
@@ -69,7 +70,6 @@ export class FleetPlacingService {
   // fuction that assigns 1 or 0,  1 for placing cookie, 0 for not placing it
   placeCookieOrNot(cookiesAreNumbered) {
     const cookieLimit = this.allowTheseCookies;
-    console.log('this is the cookieLimit: ', cookieLimit);
     if (cookiesAreNumbered < cookieLimit) {
       console.log('counter: ', this.cookieCounter);
       const numberA = Math.random();
@@ -110,7 +110,6 @@ export class FleetPlacingService {
       .snapshotChanges().pipe(map(changes => {
         return changes.map(a => {
           const boarDataComing = a.payload.doc.data() as Board;
-          console.log('esto es boarDataComing: ', boarDataComing);
           boarDataComing.id = a.payload.doc.id;
           const boarData = [];
           for (const obj in boarDataComing.board) {
@@ -119,8 +118,6 @@ export class FleetPlacingService {
             }
           }
           boarDataComing.board = boarData;
-          console.log('boarDataComing.board:', boarDataComing.board);
-          console.log('boarData:', boarData);
           return boarDataComing;
         });
       }));
@@ -136,8 +133,6 @@ export class FleetPlacingService {
   checkTheCoordLength(targetCoords) {
     const coords = [];
     const coordLength = targetCoords.toString().length;
-    console.log('targetCoords: ', targetCoords);
-    console.log('coordLength: ', coordLength);
     if (coordLength > 2) {
       coords[0] = +targetCoords.toString().slice(0, 2);
       coords[1] = +targetCoords.toString().slice(2);
@@ -188,12 +183,10 @@ export class FleetPlacingService {
     let countingCookies = 0;
     // traer el número límite de cookies
     const cookiesLimit = this.allowTheseCookies;
-    console.log('this is localBoard: ', this.localBoard);
     // iterar localBoard, contar cuantas withCookie = 1 tenemos
     // entrar a los objetos
     for (const arr in this.localBoard) {
       if (arr) {
-        console.log('localBoard[arr]: ', this.localBoard[arr]);
         // entrar a los arreglos
         this.localBoard[arr].forEach(obj => {
           // entrar a los objetos
@@ -210,6 +203,14 @@ export class FleetPlacingService {
     } else {
       return true;
     }
+  }
+
+  getPredefinedBoards() {
+    return [
+      {label: '5x5', nivel: 'Principiante'},
+      {label: '7x7', nivel: 'Intermedio'},
+      {label: '10x10', nivel: 'Pro'},
+    ];
   }
 
 
