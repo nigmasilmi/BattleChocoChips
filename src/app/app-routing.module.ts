@@ -11,6 +11,14 @@ const routes: Routes = [
   {path: 'boardA', component: PlayerAComponent},
   {path: 'boardB', component: PlayerBComponent},
   {path: 'battlefield/:id', component: BattlefieldComponent},
+  {path: '',
+  component: GameBoardComponent,
+  children: [ /* Nested Routes es el concepto que hay que averiguar */
+    {path: 'boardA', component: PlayerAComponent /*, outlet: 'playerBoardA'*/},
+    {path: 'boardB', component: PlayerBComponent, outlet: 'playerBoardB'}
+  ]}
+  // {path: 'boardA', component: PlayerAComponent, outlet: 'playerBoardA'},
+  // {path: 'boardB', component: PlayerBComponent, outlet: 'playerBoardB'},
 
 ];
 

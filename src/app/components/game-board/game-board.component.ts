@@ -19,6 +19,7 @@ export class GameBoardComponent implements OnInit {
   availableList: any;
 
   constructor(public fleetPlacingS: FleetPlacingService) {
+    this.fleetPlacingS.pushBoardsCollection(); // INCOMPLETO. IMPERFECTO
     this.boardsPredefined = this.fleetPlacingS.getPredefinedBoards();
     this.fleetPlacingS.bringTheAvailables().subscribe(whatComes => {
       this.availableList = whatComes;

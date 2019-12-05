@@ -20,6 +20,7 @@ export class FleetPlacingService {
   allowTheseCookies: number;
   cookieCounter: number;
   stoPlacingTheCookie: boolean;
+  boardsCollection: any = [];
 
   // reactive form construction
   preferencesForm = new FormGroup({
@@ -29,7 +30,6 @@ export class FleetPlacingService {
     rowsInput: new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]),
 
   });
-
 
 
   constructor(private afs: AngularFirestore) {
@@ -65,13 +65,13 @@ export class FleetPlacingService {
     this.localBoard = this.board;
     // saves in firestore
     const dataToSave = {
-       board: this.board,
-       player: playersInBoard[0],
-       guest: playersInBoard[1],
-       nRows: rows,
-       nCols: columns,
-       fleetNumber: this.allowTheseCookies
-      };
+      board: this.board,
+      player: playersInBoard[0],
+      guest: playersInBoard[1],
+      nRows: rows,
+      nCols: columns,
+      fleetNumber: this.allowTheseCookies
+    };
     this.saveBoardInFirestore(dataToSave);
   }
 
@@ -133,6 +133,38 @@ export class FleetPlacingService {
       }));
   }
 
+  pushBoardsCollection() {
+    console.log('====== CHOOSE PLAYER B ======');
+    // guardar en this.boardsCollection los id de todos los datos de jugadores
+    this.afs.collection('boards').snapshotChanges().subscribe((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // console.log(doc);
+        this.boardsCollection.push(doc.payload.doc.id);
+      });
+      console.log('this.boardsCollection: ', this.boardsCollection);
+    });
+    return this.boardsCollection;
+  }
+
+  shuffle(array) {
+    for (let j, x, i = array.length; i; j = (Math.random() * i), x = array[--i], array[i] = array[j], array[j] = x) {
+      return array;
+    }
+
+  }
+
+  choosePlayerB(IDPlayerA, IDsArray) {
+    const IDsRandomOrderArray = this.shuffle(IDsArray);
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < IDsRandomOrderArray.length; i++) {
+      if (IDPlayerA === IDsRandomOrderArray[i]) {
+        continue;
+      } else {
+        return IDsRandomOrderArray[i];
+      }
+    }
+  }
+
   // stablishes the limit to render each row in the board grid
   limiTheRows() {
     return this.settedRows;
@@ -159,8 +191,6 @@ export class FleetPlacingService {
   // switches from with-cookie to without-cookie and viceversa
   // updates the values in firestore
   toogleTheCookie(idComing, targetCoords, contCookieComing, hittedComming, eatenComing) {
-    console.log('idComing: ', idComing, 'targetCoords: ', targetCoords, 'contCookieComing', contCookieComing);
-    console.log('hittedComming: ', hittedComming, 'eatenComing: ', eatenComing);
     const rowCoord = this.checkTheCoordLength(targetCoords)[0];
     const colCoord = this.checkTheCoordLength(targetCoords)[1];
     const mayIPlaceAnotherCookie = this.keepCookiesConstant();
@@ -220,49 +250,57 @@ export class FleetPlacingService {
 
   getPredefinedBoards() {
     return [
-      {label: '5x5', nivel: 'Principiante'},
-      {label: '7x7', nivel: 'Intermedio'},
-      {label: '10x10', nivel: 'Pro'},
+      { label: '5x5', nivel: 'Principiante' },
+      { label: '7x7', nivel: 'Intermedio' },
+      { label: '10x10', nivel: 'Pro' },
     ];
   }
 
-joinTheGuest(playersPresent: Array<string>, guest: string) {
-if (playersPresent[0]) {
-  if (playersPresent[1]) {
-    console.log('ya hay dos jugadores acá');
-  } else {
-    playersPresent[1] = guest;
+  joinTheGuest(playersPresent: Array<string>, guest: string) {
+    if (playersPresent[0]) {
+      if (playersPresent[1]) {
+        console.log('ya hay dos jugadores acá');
+      } else {
+        playersPresent[1] = guest;
+      }
+    }
+
+    return playersPresent;
   }
-}
-
-return playersPresent;
-}
 
 
-// fuction that queries for the available boards
-// meaning: those that have 'ninguno' as guest
-bringTheAvailables() {
-  return this.afs.collection(
-    'boards', ref => ref.where('guest', '==', 'ninguno'))
-    .snapshotChanges().pipe(map(changes => {
-      return changes.map(a => {
-        const boarDataComing = a.payload.doc.data() as Board;
-        boarDataComing.id = a.payload.doc.id;
-        const boarData = [];
-        for (const obj in boarDataComing.board) {
-          if (obj) {
-            boarData.push(boarDataComing.board[obj]);
+  // fuction that queries for the available boards
+  // meaning: those that have 'ninguno' as guest
+  bringTheAvailables() {
+    return this.afs.collection(
+      'boards', ref => ref.where('guest', '==', 'ninguno'))
+      .snapshotChanges().pipe(map(changes => {
+        return changes.map(a => {
+          const boarDataComing = a.payload.doc.data() as Board;
+          boarDataComing.id = a.payload.doc.id;
+          const boarData = [];
+          for (const obj in boarDataComing.board) {
+            if (obj) {
+              boarData.push(boarDataComing.board[obj]);
+            }
           }
-        }
-        boarDataComing.board = boarData;
-        return boarDataComing;
-      });
-    }));
-}
+          boarDataComing.board = boarData;
+          return boarDataComing;
+        });
+      }));
+  }
 
-bringTheInterestBoard(id) {
-  return this.afs.collection('boards').doc(id);
+  bringTheInterestBoard(id) {
+    this.afs.collection('boards').doc(id).snapshotChanges().subscribe(boardComing => {
+      const boardLanding = boardComing.payload.data() as Board;
+      this.localBoard = boardLanding.board;
+      this.settedColumns = boardLanding.nCols;
+      this.settedRows = boardLanding.nRows;
+      this.allowTheseCookies = boardLanding.fleetNumber;
 
-}
+    });
+    return this.afs.collection('boards').doc(id);
+
+  }
 
 }
