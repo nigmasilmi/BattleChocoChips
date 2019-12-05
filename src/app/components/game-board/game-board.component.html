@@ -23,7 +23,8 @@ de la función -->
     Tablero</button>
 </form>
 <div *ngIf="playerIsSet">
-  <a routerLink="/boardA">Ir al tablero </a>
+  <!-- <a routerLink="/boardA">Ir al tablero </a> -->
+  <a routerLink="boardA">Ir al tablero </a>
 </div>
 <router-outlet></router-outlet>
 </div>
@@ -48,7 +49,11 @@ de la función -->
     Tablero</button>
 </form>
 <div *ngIf="playerIsSet">
-  <a routerLink="/boardB">Ir al tablero </a>
+  <!-- Doesn't work -->
+  <!-- <a [routerLink]="[{outlets:{playerBoardB:['boardB']}}]">Ir al tablero </a> -->
+  <!-- <a routerLink="/boardA(playerBoardB:boardB)">Ir al tablero </a> -->
+  <a [routerLink]='[{ outlets: { playerBoardB: ["boardB"] } }]'>Ir al tablero </a><!-- Doesn't work -->
+
 </div>
 <router-outlet name="playerBoardB"></router-outlet>
 </div>

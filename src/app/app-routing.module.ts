@@ -8,8 +8,8 @@ import { PlayerBComponent } from './components/player-b/player-b.component';
 const routes: Routes = [
   {path: '',
   component: GameBoardComponent,
-  children: [ /* Nested Routes es el concepto que hay que averiguar */
-    {path: 'boardA', component: PlayerAComponent /*, outlet: 'playerBoardA'*/},
+  children: [ /* Nested Routes y Auxiliary Route son los conceptos que hay que averiguar */
+    {path: 'boardA', component: PlayerAComponent},
     {path: 'boardB', component: PlayerBComponent, outlet: 'playerBoardB'}
   ]}
   // {path: 'boardA', component: PlayerAComponent, outlet: 'playerBoardA'},
