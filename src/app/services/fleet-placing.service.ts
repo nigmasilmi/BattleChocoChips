@@ -39,6 +39,9 @@ export class FleetPlacingService {
 
   createBoard(rows: number, columns: number, playerName: string) {
     // calculate the cookie percentage allowed for the board
+    let playersInBoard = [];
+    playersInBoard[0] = playerName;
+    playersInBoard = this.joinTheGuest(playersInBoard, 'ninguno');
     const cookiesAllowed = Math.floor(rows * columns * 0.3);
     this.allowTheseCookies = cookiesAllowed;
     console.log(cookiesAllowed);
@@ -61,7 +64,14 @@ export class FleetPlacingService {
     // save the localBoard
     this.localBoard = this.board;
     // saves in firestore
-    const dataToSave = { board: this.board, player: playerName, fleetNumber: this.allowTheseCookies };
+    const dataToSave = {
+       board: this.board,
+       player: playersInBoard[0],
+       guest: playersInBoard[1],
+       nRows: rows,
+       nCols: columns,
+       fleetNumber: this.allowTheseCookies
+      };
     this.saveBoardInFirestore(dataToSave);
   }
 
@@ -149,6 +159,8 @@ export class FleetPlacingService {
   // switches from with-cookie to without-cookie and viceversa
   // updates the values in firestore
   toogleTheCookie(idComing, targetCoords, contCookieComing, hittedComming, eatenComing) {
+    console.log('idComing: ', idComing, 'targetCoords: ', targetCoords, 'contCookieComing', contCookieComing);
+    console.log('hittedComming: ', hittedComming, 'eatenComing: ', eatenComing);
     const rowCoord = this.checkTheCoordLength(targetCoords)[0];
     const colCoord = this.checkTheCoordLength(targetCoords)[1];
     const mayIPlaceAnotherCookie = this.keepCookiesConstant();
@@ -175,6 +187,7 @@ export class FleetPlacingService {
         }
       }
     }
+    console.log('this.localBoard: ', this.localBoard);
     return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard });
   }
 
@@ -213,7 +226,43 @@ export class FleetPlacingService {
     ];
   }
 
+joinTheGuest(playersPresent: Array<string>, guest: string) {
+if (playersPresent[0]) {
+  if (playersPresent[1]) {
+    console.log('ya hay dos jugadores acá');
+  } else {
+    playersPresent[1] = guest;
+  }
+}
+
+return playersPresent;
+}
 
 
+// fuction that queries for the available boards
+// meaning: those that have 'ninguno' as guest
+bringTheAvailables() {
+  return this.afs.collection(
+    'boards', ref => ref.where('guest', '==', 'ninguno'))
+    .snapshotChanges().pipe(map(changes => {
+      return changes.map(a => {
+        const boarDataComing = a.payload.doc.data() as Board;
+        boarDataComing.id = a.payload.doc.id;
+        const boarData = [];
+        for (const obj in boarDataComing.board) {
+          if (obj) {
+            boarData.push(boarDataComing.board[obj]);
+          }
+        }
+        boarDataComing.board = boarData;
+        return boarDataComing;
+      });
+    }));
+}
+
+bringTheInterestBoard(id) {
+  return this.afs.collection('boards').doc(id);
+
+}
 
 }
