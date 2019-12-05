@@ -1,14 +1,21 @@
-<h2>Selecciona tu jugador</h2>
+<h2>Escoge un campo de batalla para entrar en contienda</h2>
+<button (click)="goWithA()" type="submit">Escoger</button>
+<div *ngIf="iGoWithA">
+<!-- desplegar acá los tableros disponibles -->
+<ul *ngIf="permissionToRender">
+  <li *ngFor="let available of availableList"><a routerLink="/battlefield/{{available.id}}">{{available.id}}</a></li>
+</ul>
+</div>
+<h2>O crea uno nuevo</h2>
+<button (click)="goWithB()" type="submit">Crear nuevo</button>
 
-<button (click)="goWithA()" *ngIf="iGoWithA" type="submit">Jugador A</button>
-<button (click)="goWithB()" *ngIf="iGoWithB" type="submit">Jugador B</button>
+
 
 <!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
 de la función -->
 <!-- JUGADOR A -->
-<div class="inscription">
-<div *ngIf="iGoWithA">
-<h3>Jugador A</h3>
+<div *ngIf="iGoWithB">
+<h3>Diseña tu campo de batalla</h3>
 <form [formGroup]="this.fleetPlacingS.preferencesForm">
   <label for="playerNameId">Nombre del Jugador</label>
   <input formControlName="playerName" type="text" id="playerNameId"><br>
@@ -33,7 +40,7 @@ de la función -->
 <hr> -->
 
 <!-- JUGADOR B -->
-<div *ngIf="iGoWithB">
+<!-- <div *ngIf="iGoWithB">
 <h3>Jugador B</h3>
 <form [formGroup]="this.fleetPlacingS.preferencesForm">
   <label for="playerNameId">Nombre del Jugador</label>
@@ -52,9 +59,9 @@ de la función -->
   <!-- Doesn't work -->
   <!-- <a [routerLink]="[{outlets:{playerBoardB:['boardB']}}]">Ir al tablero </a> -->
   <!-- <a routerLink="/boardA(playerBoardB:boardB)">Ir al tablero </a> -->
-  <a [routerLink]='[{ outlets: { playerBoardB: ["boardB"] } }]'>Ir al tablero </a><!-- Doesn't work -->
+  <!-- <a [routerLink]='[{ outlets: { playerBoardB: ["boardB"] } }]'>Ir al tablero </a><!-- Doesn't work -->
 
-</div>
+<!-- </div>
 <router-outlet name="playerBoardB"></router-outlet>
 </div>
-</div>
+</div>  -->

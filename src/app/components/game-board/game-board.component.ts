@@ -8,17 +8,24 @@ import { FleetPlacingService } from 'src/app/services/fleet-placing.service';
   styleUrls: ['./game-board.component.css']
 })
 export class GameBoardComponent implements OnInit {
-  iGoWithA = true;
-  iGoWithB = true;
+  permissionToRender: boolean;
+  iGoWithA: boolean;
+  iGoWithB: boolean;
   playerName: string;
   colsInput: number;
   rowsInput: number;
   playerIsSet = false;
   boardsPredefined: any;
+  availableList: any;
 
   constructor(public fleetPlacingS: FleetPlacingService) {
     this.fleetPlacingS.pushBoardsCollection(); // INCOMPLETO. IMPERFECTO
     this.boardsPredefined = this.fleetPlacingS.getPredefinedBoards();
+    this.fleetPlacingS.bringTheAvailables().subscribe(whatComes => {
+      this.availableList = whatComes;
+      this.permissionToRender = true;
+
+    });
   }
 
   ngOnInit() {
@@ -28,9 +35,11 @@ export class GameBoardComponent implements OnInit {
   // fuction to select the player and display player options
   goWithA() {
     this.iGoWithB = false;
+    this.iGoWithA = true;
   }
 
   goWithB() {
+    this.iGoWithB = true;
     this.iGoWithA = false;
   }
 

@@ -1,14 +1,14 @@
 <div class="cookieJelly" *ngIf="permissionToRender">
   <div *ngFor="let info of playerBBoard">
-    Jugador B: {{info.player}}<br>
-    Id tablero: {{info.id}}
-    Flota de galletas: {{info.fleetNumber}}
+    Anfitrión: {{info.player}} <br>
+    Invitado: {{info.guest}} <br>
+    Id tablero: {{info.id}} <br>
+    Flota de galletas: {{info.fleetNumber}}<br>
     <div class="containerBoard">
       <div class="cookieJar" *ngFor="let row of info.board; index as i">
         <div *ngIf="settedRows > i">
           <div (click)="cookieToggler(info.id, obj.coordinates, obj.withCookie, obj.hitted, obj.eaten)"
             class="cookieSlot" *ngFor="let obj of row">
-
             <div [ngClass]="setTheSquare(obj.withCookie)">{{obj.coordinates}}</div>
           </div>
         </div>
@@ -16,7 +16,9 @@
     </div>
   </div>
 </div>
-<div *ngIf="btnAppear" class="goAhead">Para reubicar tu flota, haz click sobre la casilla, una vez estés conforme, pulsa "iniciar partida"</div>
+<div *ngIf="btnAppear" class="goAhead">Para reubicar tu flota, haz click sobre la casilla, una vez estés conforme, pulsa
+  "iniciar partida"</div>
 <div *ngIf="alreadyStartedMsg" class="errorMsg">Ya no puedes cambiar tu flota de posición, la batalla comenzó</div>
-<div *ngIf="!this.fleetPlacingS.keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas, pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
+<div *ngIf="!this.fleetPlacingS.keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas,
+  pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
 <button *ngIf="btnAppear" (click)="startGame()">Iniciar Partida</button>

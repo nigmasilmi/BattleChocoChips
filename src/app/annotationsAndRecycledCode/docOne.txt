@@ -101,4 +101,40 @@ de la función -->
 
 ///////////////////////////////////////////////
 
+<!-- JUGADOR B -->
+<div *ngIf="iGoWithB">
+<h3>Jugador B</h3>
+<form [formGroup]="this.fleetPlacingS.preferencesForm">
+  <label for="playerNameId">Nombre del Jugador</label>
+  <input formControlName="playerName" type="text" id="playerNameId"><br>
+  <label for="boardSelectId">Selecciona un tipo de tablero</label><br>
+  <select id="boardSelectId" formControlName="boardType">
+    <option *ngFor="let board of boardsPredefined; let i = index" [value]="boardsPredefined[i].label">
+      {{boardsPredefined[i].nivel}}
+    </option>
+  </select>
+  <div class="errorMsg" *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un nombre de jugador</div>
+  <button (click)="onSubmit()" type="submit">Crear
+    Tablero</button>
+</form>
+<div *ngIf="playerIsSet">
+  <a routerLink="/boardB">Ir al tablero </a>
+</div>
+</div>
+
+////////////////////////////////////////
+
+bringTheInterestBoard(id) {
+  this.afs.collection('boards').doc(id).snapshotChanges().pipe(map((changes => {
+    return changes.map(a => {
+      const singleBoard = a.payload.doc.data() as Board;
+      const singleBoardArr = [];
+      for (const arr in singleBoard.board) {
+        if (arr) {
+          singleBoardArr.push(singleBoardArr.board[obj]);
+        }
+      }
+    });
+  })));
+
   
