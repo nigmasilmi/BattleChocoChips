@@ -20,7 +20,7 @@ export class BattlefieldComponent implements OnInit {
   btnAppear = true;
   noMoreCookies: boolean;
 
-  constructor(private route: ActivatedRoute, private fleetPlacingS: FleetPlacingService, private location: Location) { }
+  constructor(private route: ActivatedRoute, public fleetPlacingS: FleetPlacingService, private location: Location) { }
 
   ngOnInit() {
     this.currentId = this.route.snapshot.paramMap.get('id');
