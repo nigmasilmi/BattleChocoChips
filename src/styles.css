@@ -4,15 +4,25 @@ body {
 }
 
 .ocuppied{
-    background: brown;
+    background-image: url(https://res.cloudinary.com/dcloh6s2z/image/upload/v1575580446/Portafolio/BattleChocoChip/cookie-ANIMATION_f4voqf.gif); 
+    background-repeat:no-repeat;
+    /* background: brown;  */
+    background-size: 100%;
     border: solid 2px #ffffff;
 }
+/* <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> */
 
 .empty{
-    background: skyblue;
+    background-image: url(https://res.cloudinary.com/dcloh6s2z/image/upload/v1575601585/Portafolio/BattleChocoChip/jelly-ANIMATION_yfvcwp.gif);
+    background-repeat:no-repeat;
+    background-size: 100%;
+    /* background: skyblue; */
     border: solid 2px #ffffff;
 
 }
+/* Photo by <a href="/photographer/bloodypixy-29906">pixy </a> from <a href="https://freeimages.com/">FreeImages</a> */
+
+/* <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div> */
 
 .cookieJelly{
     display: flex;
@@ -20,7 +30,7 @@ body {
 }
 
 .containerBoard {
-    max-width: 88%; /*era 38% */ /* Porcentaje en relación con el contenedor padre */
+    max-width: 40%; /*38% máx 8 casillas de 40px. 40% más 10 casillas de 32px */ /* Porcentaje en relación con el contenedor padre */
     /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
 }
 
@@ -41,10 +51,13 @@ body {
         /* de esta manera caben máx 8 .cookieSlot en una fila */
 }
 
-@media all and (max-width:300px) and (min-width:245px) {
+#myOpponent .empty, #myOpponent .ocuppied {
+    background: aqua; /* Background-color pone fondo detrás de las imágenes en background-image */
+}
+
+@media all and (max-width:371px) and (min-width:303px) {
     .containerBoard {
         max-width: 100%; /* Porcentaje en relación con el contenedor padre */
-        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
     }
 
     .cookieJar {
@@ -57,10 +70,9 @@ body {
     }
 }
 
-@media all and (max-width:398px) and (min-width:300px) {
+@media all and (max-width:420px) and (min-width:371px) {
     .containerBoard {
         max-width: 100%; /* Porcentaje en relación con el contenedor padre */
-        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
     }
 
     .cookieJar {
@@ -73,10 +85,9 @@ body {
     }
 }
 
-@media all and (max-width:495px) and (min-width:398px) {
+@media all and (max-width:501px) and (min-width:420px) {
     .containerBoard {
         max-width: 100%; /* Porcentaje en relación con el contenedor padre */
-        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
     }
 
     .cookieJar {
@@ -89,10 +100,9 @@ body {
     }
 }
 
-@media all and (max-width:765px) and (min-width:495px) {
+@media all and (max-width:903px) and (min-width:501px) {
     .containerBoard {
-        max-width: 100%; /* Porcentaje en relación con el contenedor padre */
-        /* Buen tamaño, pero soporta hasta 5 .cookieSlot sin adaptarles el tamaño */
+        max-width: 100%;
     }
 
     .cookieJar {
@@ -105,23 +115,23 @@ body {
     }
 }
 
-@media all and (max-width:872px) and (min-width:765px) {
+@media all and (max-width:977px) and (min-width:903px) {
     .ocuppied, .empty {
         width: 27px;
         height: 27px;
     }
 }
 
-@media all and (max-width:1049px) and (min-width:872px) {
+@media all and (max-width:1028px) and (min-width:977px) {
     .ocuppied, .empty {
-        width: 32px;
-        height: 32px;
+        width: 30px;
+        height: 30px;
     }
 }
 
-@media all and (min-width:1049px) {
+@media all and (min-width:1028px) {
     .ocuppied, .empty {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
     }
 }
