@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 body {
     font-family: 'Baloo Bhai', cursive;
 }
@@ -40,6 +40,15 @@ body {
     max-height: 100%; /* Porcentaje en relación con el contenedor padre */
         /* de esta manera caben máx 8 .cookieSlot en una fila */
 }
+.playerAClass{
+    float: left;
+}
+
+.playerBClass{
+    float: right;
+}
+
+
 
 @media all and (max-width:300px) and (min-width:245px) {
     .containerBoard {

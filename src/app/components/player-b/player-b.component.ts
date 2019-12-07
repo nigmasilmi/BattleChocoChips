@@ -1,6 +1,8 @@
 
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-player-b',
@@ -9,27 +11,28 @@ import { FleetPlacingService } from '../../services/fleet-placing.service';
 })
 export class PlayerBComponent implements OnInit, AfterViewInit {
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
-  permissionToRender = false;
+  objectKeys = Object.keys;
+  loading = false;
   settedRows: number;
-  playerBBoard = [];
-  withCookie = false;
+  currentId: string;
+  currentRoute: string;
+  boardLanding: any;
   gameStarted = false;
   alreadyStartedMsg = false;
   btnAppear = true;
   noMoreCookies: boolean;
 
-  constructor(public fleetPlacingS: FleetPlacingService) {
-    // this.fleetPlacingS.choosePlayerB();
-    this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
-      this.playerBBoard = whatComes;
-      console.log('this is playerABoard now: ', this.playerBBoard);
-      this.permissionToRender = true;
-
-    });
-  }
+  constructor(private route: ActivatedRoute, public fleetPlacingS: FleetPlacingService) { }
 
   ngOnInit() {
     this.settedRows = this.fleetPlacingS.limiTheRows();
+    this.currentId = this.route.snapshot.paramMap.get('id');
+    this.fleetPlacingS.bringTheInterestBoard(this.currentId).snapshotChanges().subscribe(boardComing => {
+      this.boardLanding = boardComing.payload.data();
+      this.settedRows = this.boardLanding.nRows;
+      console.log('this.boardLanding: ', this.boardLanding);
+      this.loading = true;
+    });
   }
 
   ngAfterViewInit() {
@@ -47,9 +50,10 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
   }
 
   cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
+    console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten);
     if (this.gameStarted === false) {
-    this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
-  } else {
+      this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
+    } else {
       this.alreadyStartedMsg = true;
       setTimeout(() => {
         this.alreadyStartedMsg = false;
@@ -57,12 +61,10 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
     }
   }
 
-
   startGame() {
     this.gameStarted = true;
     this.btnAppear = false;
     this.noMoreCookies = false;
-
   }
 
 

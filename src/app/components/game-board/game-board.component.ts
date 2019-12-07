@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
 import { FleetPlacingService } from 'src/app/services/fleet-placing.service';
 
 @Component({
@@ -19,7 +18,7 @@ export class GameBoardComponent implements OnInit {
   availableList: any;
 
   constructor(public fleetPlacingS: FleetPlacingService) {
-    this.fleetPlacingS.pushBoardsCollection(); // INCOMPLETO. IMPERFECTO
+    this.fleetPlacingS.pushBoardsCollection();
     this.boardsPredefined = this.fleetPlacingS.getPredefinedBoards();
     this.fleetPlacingS.bringTheAvailables().subscribe(whatComes => {
       this.availableList = whatComes;
@@ -29,7 +28,6 @@ export class GameBoardComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('boardsPredefined: ', this.boardsPredefined);
   }
 
   // fuction to select the player and display player options
@@ -82,11 +80,19 @@ export class GameBoardComponent implements OnInit {
         colsInputToPass = 10;
         break;
     }
-    console.log('boardSelected: ', boardSelected);
     this.fleetPlacingS.createBoard(rowsInputToPass, colsInputToPass, playerNameToPass);
-    this.fleetPlacingS.actualPlayer = this.fleetPlacingS.preferencesForm.value.playerName;
     this.playerIsSet = true;
     this.fleetPlacingS.preferencesForm.reset();
+
+    // aquí hay que viajar a la ruta del tablero recién creado --battlefield/boarA/[id del tablero]--
+    // para que se active la funcionalidad
+    // y lo muestre como hijo del componente battlefield
+    // cómo obtengo el id recién creado?
+    // retornando el id en la función de guardar en firebase, en la res de la promesa
+    // y asignándolo a una variable en este componente
+
+
+
   }
 
 

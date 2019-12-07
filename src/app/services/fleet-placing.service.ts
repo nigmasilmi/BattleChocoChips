@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Board } from '../models/board';
 
@@ -21,6 +21,7 @@ export class FleetPlacingService {
   cookieCounter: number;
   stoPlacingTheCookie: boolean;
   boardsCollection: any = [];
+  route: Router;
 
   // reactive form construction
   preferencesForm = new FormGroup({
@@ -38,13 +39,12 @@ export class FleetPlacingService {
   }
 
   createBoard(rows: number, columns: number, playerName: string) {
-    // calculate the cookie percentage allowed for the board
     let playersInBoard = [];
     playersInBoard[0] = playerName;
     playersInBoard = this.joinTheGuest(playersInBoard, 'ninguno');
+    // calculate the cookie percentage allowed for the board
     const cookiesAllowed = Math.floor(rows * columns * 0.3);
     this.allowTheseCookies = cookiesAllowed;
-    console.log(cookiesAllowed);
     // create a 2d array that represents the player board with the number of c and r as arguments
     // tslint:disable-next-line: prefer-for-of
     this.settedRows = rows;
@@ -81,7 +81,6 @@ export class FleetPlacingService {
   placeCookieOrNot(cookiesAreNumbered) {
     const cookieLimit = this.allowTheseCookies;
     if (cookiesAreNumbered < cookieLimit) {
-      console.log('counter: ', this.cookieCounter);
       const numberA = Math.random();
       const numberB = Math.random();
       if (numberA > numberB) {
@@ -99,12 +98,19 @@ export class FleetPlacingService {
 
   // CREATE BOARD (with player name)
   saveBoardInFirestore(data) {
+
     return new Promise<any>((resolve, reject) => {
       this.afs
         .collection('boards')
         .add(data)
         .then(res => {
-          console.log('esto es el resolve de la promesa en saveBoardInFirestore: ', res);
+          res.get().then( resp => {
+            console.log('resDelaPromesa.data(): ', resp.data());
+            this.route.navigateByUrl(`/battlefield/boardA/${resp.id}`);
+            console.log('this.route: ', this.route);
+            console.log('`/battlefield/boardA/${resp.id}`: ', `/battlefield/boardA/${resp.id}`);
+
+          });
         },
           err => reject(err));
     });
@@ -113,14 +119,15 @@ export class FleetPlacingService {
   // RETRIEVE BOARD (based on player name)
   // must validate name and id
 
-  retrieveBoard() {
-    const targetPlayer = this.actualPlayer;
+  retrieveBoard(playerName) {
+    const targetPlayer = playerName;
     return this.afs.collection(
       'boards', ref => ref.where('player', '==', `${targetPlayer}`))
       .snapshotChanges().pipe(map(changes => {
-        return changes.map(a => {
+        changes.map(a => {
           const boarDataComing = a.payload.doc.data() as Board;
           boarDataComing.id = a.payload.doc.id;
+          const idToGo = a.payload.doc.id;
           const boarData = [];
           for (const obj in boarDataComing.board) {
             if (obj) {
@@ -128,6 +135,7 @@ export class FleetPlacingService {
             }
           }
           boarDataComing.board = boarData;
+          this.route.navigateByUrl(`/battlefield/boardA/${idToGo}`);
           return boarDataComing;
         });
       }));
@@ -141,7 +149,6 @@ export class FleetPlacingService {
         // console.log(doc);
         this.boardsCollection.push(doc.payload.doc.id);
       });
-      console.log('this.boardsCollection: ', this.boardsCollection);
     });
     return this.boardsCollection;
   }
@@ -182,7 +189,6 @@ export class FleetPlacingService {
       coords[0] = +targetCoords.toString().slice(0, 1);
       coords[1] = +targetCoords.toString().slice(1);
     }
-    console.log('coords: ', coords);
     return coords;
 
   }
@@ -196,7 +202,6 @@ export class FleetPlacingService {
     const mayIPlaceAnotherCookie = this.keepCookiesConstant();
     this.stoPlacingTheCookie = this.keepCookiesConstant();
     for (let r = 0; r < this.settedRows; r++) {
-      // this.localBoard[r] = [];
       for (let c = 0; c < this.settedColumns; c++) {
         if (this.localBoard[r][c] === this.localBoard[rowCoord][colCoord]) {
           if (contCookieComing === 0 && mayIPlaceAnotherCookie) {
@@ -217,7 +222,6 @@ export class FleetPlacingService {
         }
       }
     }
-    console.log('this.localBoard: ', this.localBoard);
     return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard });
   }
 
@@ -269,7 +273,7 @@ export class FleetPlacingService {
   }
 
 
-  // fuction that queries for the available boards
+  // function that queries for the available boards
   // meaning: those that have 'ninguno' as guest
   bringTheAvailables() {
     return this.afs.collection(
@@ -303,4 +307,7 @@ export class FleetPlacingService {
 
   }
 
+
 }
+
+

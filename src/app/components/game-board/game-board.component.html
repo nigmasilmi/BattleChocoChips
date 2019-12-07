@@ -1,40 +1,30 @@
 <h2>Escoge un campo de batalla para entrar en contienda</h2>
 <button (click)="goWithA()" type="submit">Escoger</button>
 <div *ngIf="iGoWithA">
-<!-- desplegar acá los tableros disponibles -->
-<ul *ngIf="permissionToRender">
-  <li *ngFor="let available of availableList"><a routerLink="/battlefield/{{available.id}}">{{available.id}}</a></li>
-</ul>
+  <!-- desplegar acá los tableros disponibles -->
+  <ul *ngIf="permissionToRender">
+    <li *ngFor="let available of availableList"><a
+        routerLink="/battlefield/boardA/{{available.id}}">{{available.id}}</a></li>
+  </ul>
 </div>
+
 <h2>O crea uno nuevo</h2>
 <button (click)="goWithB()" type="submit">Crear nuevo</button>
-
-
-
-<!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
-de la función -->
-<!-- JUGADOR A -->
 <div *ngIf="iGoWithB">
-<h3>Diseña tu campo de batalla</h3>
-<form [formGroup]="this.fleetPlacingS.preferencesForm">
-  <label for="playerNameId">Nombre del Jugador</label>
-  <input formControlName="playerName" type="text" id="playerNameId"><br>
-  <div class="errorMsg" *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un nombre de jugador</div>
-  <label for="boardSelectId">Selecciona un tipo de tablero</label><br>
-  <select id="boardSelectId" formControlName="boardType">
-    <option *ngFor="let board of boardsPredefined; let i = index" [value]="boardsPredefined[i].label">
-      {{boardsPredefined[i].nivel}}
-    </option>
-  </select>
-  <button (click)="onSubmit()" type="submit">Crear
-    Tablero</button>
-</form>
-<div *ngIf="playerIsSet">
-  <a routerLink="/boardA">Ir al tablero </a>
-</div>
-<router-outlet></router-outlet>
-</div>
-
-<!-- <hr>
-<hr> -->
-
+  <h3>Diseña tu campo de batalla</h3>
+  <form [formGroup]="this.fleetPlacingS.preferencesForm">
+    <label for="playerNameId">Nombre del Jugador</label>
+    <input formControlName="playerName" type="text" id="playerNameId"><br>
+    <div class="errorMsg"
+      *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un
+      nombre de jugador</div>
+    <label for="boardSelectId">Selecciona un tipo de tablero</label><br>
+    <select id="boardSelectId" formControlName="boardType">
+      <option *ngFor="let board of boardsPredefined; let i = index" [value]="boardsPredefined[i].label">
+        {{boardsPredefined[i].nivel}}
+      </option>
+    </select>
+    <button (click)="onSubmit()" type="submit">Crear
+      Tablero</button>
+  </form>
+  

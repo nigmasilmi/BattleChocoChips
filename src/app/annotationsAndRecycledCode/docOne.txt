@@ -137,4 +137,73 @@ bringTheInterestBoard(id) {
     });
   })));
 
+  /////////////////////////////////////
+
+  <!--<div class="cookieJelly" *ngIf="loading">
+  Anfitrión: {{boardLanding.player}} <br>
+  Invitado: {{boardLanding.guest}} <br>
+  Id tablero: {{currentId}} <br>
+  Flota de galletas: {{boardLanding.fleetNumber}}<br>
+   <a routerLink="/boardB">Ver oponente </a> 
+  <div class="containerBoard">
+    <div class="cookieJar" *ngFor="let key of objectKeys(boardLanding.board); index as i">
+    <div *ngIf="settedRows > i">
+     <div class="cookieSlot" *ngFor="let ele of boardLanding.board[key]" (click)="cookieToggler(currentId, ele.coordinates, ele.withCookie, ele.hitted, ele.eaten)">
+        <div [ngClass]="setTheSquare(ele.withCookie)">{{ele.coordinates}}</div>
+     </div>
+     </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="btnAppear" class="goAhead">Para reubicar tu flota, haz click sobre la casilla, una vez estés conforme, pulsa
+  "iniciar partida"</div>
+<div *ngIf="alreadyStartedMsg" class="errorMsg">Ya no puedes cambiar tu flota de posición, la batalla comenzó</div>
+<div *ngIf="!this.fleetPlacingS.keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas,
+  pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
+<button *ngIf="btnAppear" (click)="startGame()">Iniciar Partida</button>
+-->
+
+/////////////////////////////
+
+
+ {path: '',
+  component: GameBoardComponent,
+  children: [ /* Nested Routes es el concepto que hay que averiguar */
+    {path: 'boardA', component: PlayerAComponent /*, outlet: 'playerBoardA'*/},
+    {path: 'boardB', component: PlayerBComponent, outlet: 'playerBoardB'}
+  ]}
+  // {path: 'boardA', component: PlayerAComponent, outlet: 'playerBoardA'},
+  // {path: 'boardB', component: PlayerBComponent, outlet: 'playerBoardB'},
+
+  ///////////////////////
+
+  
+
+<!-- on submit debe llamar a create board en el servicio y tomar estos valores de input como los argumentos
+de la función -->
+<!-- JUGADOR A -->
+<!-- <div *ngIf="iGoWithB">
+<h3>Diseña tu campo de batalla</h3>
+<form [formGroup]="this.fleetPlacingS.preferencesForm">
+  <label for="playerNameId">Nombre del Jugador</label>
+  <input formControlName="playerName" type="text" id="playerNameId"><br>
+  <div class="errorMsg" *ngIf="( playerNameInput.dirty || playerNameInput.touched ) && playerNameInput.errors?.required">Debes ingresar un nombre de jugador</div>
+  <label for="boardSelectId">Selecciona un tipo de tablero</label><br>
+  <select id="boardSelectId" formControlName="boardType">
+    <option *ngFor="let board of boardsPredefined; let i = index" [value]="boardsPredefined[i].label">
+      {{boardsPredefined[i].nivel}}
+    </option>
+  </select>
+  <button (click)="onSubmit()" type="submit">Crear
+    Tablero</button>
+</form>
+<div *ngIf="playerIsSet">
+  <a routerLink="/boardA">Ir al tablero </a>
+</div>
+<router-outlet></router-outlet>
+</div> -->
+
+<!-- <hr>
+<hr> -->
+
   

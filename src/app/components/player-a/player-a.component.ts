@@ -1,19 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
-import { Logs } from 'selenium-webdriver';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-player-a',
   templateUrl: './player-a.component.html',
   styleUrls: ['./player-a.component.css']
 })
-export class PlayerAComponent implements OnInit, AfterViewInit {
+export class PlayerAComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('paboard', { static: false }) plABoard: ElementRef;
-  permissionToRender = false;
+  objectKeys = Object.keys;
+  loading = false;
   settedRows: number;
-  playerABoard = [];
-  withCookie = false;
+  currentId: string;
+  subscriptionRoute: any;
+  currentRoute: string;
+  boardLanding: any;
   gameStarted = false;
   alreadyStartedMsg = false;
   btnAppear = true;
@@ -21,47 +25,54 @@ export class PlayerAComponent implements OnInit, AfterViewInit {
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
 
-  constructor(public fleetPlacingS: FleetPlacingService) {
-    this.fleetPlacingS.retrieveBoard().subscribe(whatComes => {
-      this.playerABoard = whatComes;
-      this.permissionToRender = true;
-    });
-
+  constructor(private route: ActivatedRoute, public fleetPlacingS: FleetPlacingService) {
   }
 
   ngOnInit() {
     this.settedRows = this.fleetPlacingS.limiTheRows();
-  }
+    this.route.paramMap.subscribe(params => this.currentId = params.get('id'));
+    this.fleetPlacingS.bringTheInterestBoard(this.currentId).snapshotChanges().subscribe(boardComing => {
+      this.boardLanding = boardComing.payload.data();
+      this.settedRows = this.boardLanding.nRows;
+      this.loading = true;
+    });
+}
 
-  ngAfterViewInit() {
+ngOnDestroy() {
+  this.subscriptionRoute();
+}
 
-  }
 
-  // function that sets the styles for occupied or not depending of the boolean value at the moment
-  setTheSquare(isThereACookie) {
-    const classes = {
-      ocuppied: isThereACookie === 1,
-      empty: isThereACookie === 0
-    };
-    return classes;
-  }
+ngAfterViewInit() {
 
-  cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
-    if (this.gameStarted === false) {
-      this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
-    } else {
-      this.alreadyStartedMsg = true;
-      setTimeout(() => {
-        this.alreadyStartedMsg = false;
-      }, 3000);
-    }
-  }
+}
 
-  startGame() {
-    this.gameStarted = true;
-    this.btnAppear = false;
-    this.noMoreCookies = false;
+// function that sets the styles for occupied or not depending of the boolean value at the moment
+setTheSquare(isThereACookie) {
+  const classes = {
+    ocuppied: isThereACookie === 1,
+    empty: isThereACookie === 0
+  };
+  return classes;
+}
+
+cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
+  console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten);
+  if (this.gameStarted === false) {
+    this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
+  } else {
+    this.alreadyStartedMsg = true;
+    setTimeout(() => {
+      this.alreadyStartedMsg = false;
+    }, 3000);
   }
+}
+
+startGame() {
+  this.gameStarted = true;
+  this.btnAppear = false;
+  this.noMoreCookies = false;
+}
 
 
 }

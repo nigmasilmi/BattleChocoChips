@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
 
@@ -12,7 +14,7 @@ export class BattlefieldComponent implements OnInit {
   objectKeys = Object.keys;
   loading = false;
   settedRows: number;
-  currentId: string;
+  currentId: any;
   currentRoute: string;
   boardLanding: any;
   gameStarted = false;
@@ -23,11 +25,11 @@ export class BattlefieldComponent implements OnInit {
   constructor(private route: ActivatedRoute, public fleetPlacingS: FleetPlacingService, private location: Location) { }
 
   ngOnInit() {
-    this.currentId = this.route.snapshot.paramMap.get('id');
+    this.route.firstChild.paramMap.subscribe(params => this.currentId = params.get('id'));
+    console.log('está tomando el id de la ruta --en battlefield--: ', this.currentId);
     this.fleetPlacingS.bringTheInterestBoard(this.currentId).snapshotChanges().subscribe(boardComing => {
       this.boardLanding = boardComing.payload.data();
       this.settedRows = this.boardLanding.nRows;
-      console.log('this.boardLanding: ', this.boardLanding);
       this.loading = true;
     });
 
@@ -43,6 +45,7 @@ export class BattlefieldComponent implements OnInit {
   }
 
   cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
+    console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten );
     if (this.gameStarted === false) {
       this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
     } else {

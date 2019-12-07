@@ -8,17 +8,13 @@ import { BattlefieldComponent } from './components/battlefield/battlefield.compo
 
 const routes: Routes = [
   {path: '', component: GameBoardComponent},
-  {path: 'boardA', component: PlayerAComponent},
-  {path: 'boardB', component: PlayerBComponent},
-  {path: 'battlefield/:id', component: BattlefieldComponent},
-  {path: '',
-  component: GameBoardComponent,
-  children: [ /* Nested Routes es el concepto que hay que averiguar */
-    {path: 'boardA', component: PlayerAComponent /*, outlet: 'playerBoardA'*/},
-    {path: 'boardB', component: PlayerBComponent, outlet: 'playerBoardB'}
-  ]}
-  // {path: 'boardA', component: PlayerAComponent, outlet: 'playerBoardA'},
-  // {path: 'boardB', component: PlayerBComponent, outlet: 'playerBoardB'},
+  {path: 'battlefield',
+  component: BattlefieldComponent,
+   children: [
+     { path: 'boardA/:id', component: PlayerAComponent },
+    //  { path: 'boardB/:id', component: PlayerBComponent }
+
+    ]},
 
 ];
 

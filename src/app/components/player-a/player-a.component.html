@@ -1,17 +1,14 @@
-<div class="cookieJelly" *ngIf="permissionToRender">
-  <div *ngFor="let info of playerABoard">
-    Anfitrión: {{info.player}} <br>
-    Invitado: {{info.guest}} <br>
-    Id tablero: {{info.id}} <br>
-    Flota de galletas: {{info.fleetNumber}}<br>
-    <!-- <a routerLink="/boardB">Ver oponente </a> -->
-    <div class="containerBoard">
-      <div class="cookieJar" *ngFor="let row of info.board; index as i">
-        <div *ngIf="settedRows > i">
-          <div (click)="cookieToggler(info.id, obj.coordinates, obj.withCookie, obj.hitted, obj.eaten)"
-            class="cookieSlot" *ngFor="let obj of row">
-            <div [ngClass]="setTheSquare(obj.withCookie)">{{obj.coordinates}}</div>
-          </div>
+<div class="cookieJelly" *ngIf="loading">
+  Anfitrión: {{boardLanding.player}} <br>
+  Invitado: {{boardLanding.guest}} <br>
+  Id tablero: {{currentId}} <br>
+  Flota de galletas: {{boardLanding.fleetNumber}}<br>
+  <div class="containerBoard">
+    <div class="cookieJar" *ngFor="let key of objectKeys(boardLanding.board); index as i">
+      <div *ngIf="settedRows > i">
+        <div class="cookieSlot" *ngFor="let ele of boardLanding.board[key]"
+          (click)="cookieToggler(currentId, ele.coordinates, ele.withCookie, ele.hitted, ele.eaten)">
+          <div [ngClass]="setTheSquare(ele.withCookie)">{{ele.coordinates}}</div>
         </div>
       </div>
     </div>
