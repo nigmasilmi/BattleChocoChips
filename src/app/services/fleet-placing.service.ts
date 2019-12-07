@@ -21,7 +21,6 @@ export class FleetPlacingService {
   cookieCounter: number;
   stoPlacingTheCookie: boolean;
   boardsCollection: any = [];
-  route: Router;
 
   // reactive form construction
   preferencesForm = new FormGroup({
@@ -33,7 +32,7 @@ export class FleetPlacingService {
   });
 
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private afs: AngularFirestore, public route: Router) {
     this.cookieCounter = 0;
 
   }
