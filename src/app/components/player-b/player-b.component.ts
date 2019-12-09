@@ -54,10 +54,7 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
     if (this.gameStarted === false) {
       this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
     } else {
-      this.alreadyStartedMsg = true;
-      setTimeout(() => {
-        this.alreadyStartedMsg = false;
-      }, 3000);
+      this.startedMsg();
     }
   }
 
@@ -67,6 +64,12 @@ export class PlayerBComponent implements OnInit, AfterViewInit {
     this.noMoreCookies = false;
   }
 
+  startedMsg() {
+    this.alreadyStartedMsg = true;
+    setTimeout(() => {
+      this.alreadyStartedMsg = false;
+    }, 3000);
+  }
 
 }
 

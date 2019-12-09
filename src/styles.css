@@ -58,8 +58,6 @@ body {
     float: right;
 }
 
-
-
 #myOpponent .empty, #myOpponent .ocuppied {
     background: aqua; /* Background-color pone fondo detrás de las imágenes en background-image */
 }
