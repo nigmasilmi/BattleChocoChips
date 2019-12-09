@@ -94,7 +94,7 @@ export class FleetPlacingService {
 
   // CREATE BOARD (with player name)
   saveBoardInFirestore(data) {
-
+    console.log('this is data as argument: ', data);
     return new Promise<any>((resolve, reject) => {
       this.afs
         .collection('boards')

@@ -12,7 +12,7 @@ const routes: Routes = [
   component: BattlefieldComponent,
    children: [
      { path: 'boardA/:id', component: PlayerAComponent },
-    //  { path: 'boardB/:id', component: PlayerBComponent }
+     { path: 'boardB/:id', component: PlayerBComponent }
 
     ]},
 

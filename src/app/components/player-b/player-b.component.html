@@ -1,22 +1,30 @@
+
+<h4>Bienvenido, invitado</h4>
+<form [formGroup]="this.battleServ.guestForm">
+    <label for="guestNameId">Ingresa tu nombre</label>
+    <input formControlName="guestName" type="text" id="guestNameId"><br>
+    <button (click)="createGuestBoard()">Crear mi tablero</button>
+</form>
+
 <div class="cookieJelly" *ngIf="loading">
-  Anfitrión: {{boardLanding.player}} <br>
-  Invitado: {{boardLanding.guest}} <br>
-  Id tablero: {{currentId}} <br>
-  Flota de galletas: {{boardLanding.fleetNumber}}<br>
-  <div class="containerBoard">
-    <div class="cookieJar" *ngFor="let key of objectKeys(boardLanding.board); index as i">
-      <div *ngIf="settedRows > i">
-        <div class="cookieSlot" *ngFor="let ele of boardLanding.board[key]"
-          (click)="cookieToggler(currentId, ele.coordinates, ele.withCookie, ele.hitted, ele.eaten)">
-          <div [ngClass]="setTheSquare(ele.withCookie)">{{ele.coordinates}}</div>
+        Anfitrión: {{boardLanding.player}} <br>
+        Invitado: {{boardLanding.guest}} <br>
+        Id tablero: {{currentId}} <br>
+        Flota de galletas: {{boardLanding.fleetNumber}}<br>
+        <div class="containerBoard">
+          <div class="cookieJar" *ngFor="let key of objectKeys(boardLanding.board); index as i">
+            <div *ngIf="settedRows > i">
+              <div class="cookieSlot" *ngFor="let ele of boardLanding.board[key]"
+                (click)="cookieToggler(currentId, ele.coordinates, ele.withCookie, ele.hitted, ele.eaten)">
+                <div [ngClass]="setTheSquare(ele.withCookie)">{{ele.coordinates}}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-<div *ngIf="btnAppear" class="goAhead">Para reubicar tu flota, haz click sobre la casilla, una vez estés conforme, pulsa
-  "iniciar partida"</div>
-<div *ngIf="alreadyStartedMsg" class="errorMsg">Ya no puedes cambiar tu flota de posición, la batalla comenzó</div>
-<div *ngIf="!this.fleetPlacingS.keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas,
-  pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
-<button *ngIf="btnAppear" (click)="startGame()">Iniciar Partida</button>
+      <div *ngIf="btnAppear" class="goAhead">Para reubicar tu flota, haz click sobre la casilla, una vez estés conforme, pulsa
+        "iniciar partida"</div>
+      <div *ngIf="alreadyStartedMsg" class="errorMsg">Ya no puedes cambiar tu flota de posición, la batalla comenzó</div>
+      <div *ngIf="!keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas,
+        pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
+      <button *ngIf="btnAppear" (click)="startGame()">Iniciar Partida</button>
