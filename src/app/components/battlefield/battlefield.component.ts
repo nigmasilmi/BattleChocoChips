@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
+import { Board } from '../../models/board';
 import { Location } from '@angular/common';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
 
@@ -28,8 +29,10 @@ export class BattlefieldComponent implements OnInit {
     this.route.firstChild.paramMap.subscribe(params => this.currentId = params.get('id'));
     console.log('está tomando el id de la ruta --en battlefield--: ', this.currentId);
     this.fleetPlacingS.bringTheInterestBoard(this.currentId).snapshotChanges().subscribe(boardComing => {
-      this.boardLanding = boardComing.payload.data();
-      this.settedRows = this.boardLanding.nRows;
+      this.boardLanding = boardComing.payload.data() as Board;
+      // this.boardLanding.nRows = boardComing.payload.data().nRows;
+      console.log('this.boardLanding in battlefield comp: ', this.boardLanding.nRows);
+      // this.settedRows = boardComing.payload.doc.data().nRows;
       this.loading = true;
     });
 

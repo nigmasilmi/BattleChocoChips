@@ -1,10 +1,13 @@
-<!-- <p>battlefield works!</p>
-<div class="playerAClass">
-    <app-player-a></app-player-a>
-</div>
-<div class="playerBClass">
-<app-player-b></app-player-b> -->
+
+<!-- Aquí se despliega el anfitrión -->
 <div *ngIf="loading">
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
-<!-- </div> -->
+
+<!-- Aquí se despliega el invitado -->
+<div>
+  <app-player-b></app-player-b>
+</div>
+
+<!-- Traer el id del anfitrión, comprobar si el nombre del anfitrión es diferente al nombre del invitado
+si es así, trigger la funcionalidad que esconde la información de la flota -->

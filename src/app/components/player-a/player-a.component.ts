@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -8,14 +8,12 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './player-a.component.html',
   styleUrls: ['./player-a.component.css']
 })
-export class PlayerAComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PlayerAComponent implements OnInit {
 
-  @ViewChild('paboard', { static: false }) plABoard: ElementRef;
   objectKeys = Object.keys;
   loading = false;
   settedRows: number;
   currentId: string;
-  subscriptionRoute: any;
   currentRoute: string;
   boardLanding: any;
   gameStarted = false;
@@ -38,14 +36,7 @@ export class PlayerAComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 }
 
-ngOnDestroy() {
-  this.subscriptionRoute();
-}
 
-
-ngAfterViewInit() {
-
-}
 
 // function that sets the styles for occupied or not depending of the boolean value at the moment
 setTheSquare(isThereACookie) {
