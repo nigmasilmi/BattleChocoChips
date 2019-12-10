@@ -124,5 +124,13 @@ bringTheOpponentBoard() {
   return this.afs.collection('boards').doc(id);
 }
 
+togleBCookies(id, coords, containsCookie, isHitted, isEaten) {
+  this.fleetService.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
+}
+
+thereIsCookieOrJellyB(id, coords, containsCookie, isHitted, isEaten, slotId) {
+  this.fleetService.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId);
+}
+
 
 }

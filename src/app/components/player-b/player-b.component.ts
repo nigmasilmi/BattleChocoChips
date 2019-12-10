@@ -19,6 +19,7 @@ export class PlayerBComponent implements OnInit {
   showForm = true;
   noMoreCookies: boolean;
   settedRows: number;
+  alreadyStartedMsg = false;
   playerBId: string;
   private oppBoardCreated = new BehaviorSubject<boolean>(false);
   permission: Observable<boolean> = this.oppBoardCreated.asObservable();
@@ -82,5 +83,35 @@ export class PlayerBComponent implements OnInit {
     return classes;
   }
 
+  cookieToggler(id, coords, containsCookie, isHitted, isEaten, slotId) {
+    console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten);
+    if (this.gameStarted === false) {
+      this.battleServ.togleBCookies(id, coords, containsCookie, isHitted, isEaten);
+    } else {
+      this.startedMsg();
+      this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
+    }
+  }
+
+  startedMsg() {
+    this.alreadyStartedMsg = true;
+    setTimeout(() => {
+      this.alreadyStartedMsg = false;
+    }, 3000);
+  }
+
+  cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId) {
+    // console.log('ID SLOT: ', this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId));
+    if (containsCookie === 0) {
+      // cambiar estilo al slot con el id especificado
+      (document.querySelector('#' +
+      this.battleServ.thereIsCookieOrJellyB(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
+      .style.background = 'green';
+    } else if (containsCookie === 1) {
+      (document.querySelector('#' +
+      this.battleServ.thereIsCookieOrJellyB(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
+      .style.background = 'red';
+    }
+  }
 
 }
