@@ -33,36 +33,53 @@ export class PlayerAComponent implements OnInit {
       this.settedRows = this.boardLanding.nRows;
       this.loading = true;
     });
-}
+  }
 
+  // function that sets the styles for occupied or not depending of the boolean value at the moment
+  setTheSquare(isThereACookie) {
+    const classes = {
+      ocuppied: isThereACookie === 1,
+      empty: isThereACookie === 0
+    };
+    return classes;
+  }
 
+  cookieToggler(id, coords, containsCookie, isHitted, isEaten, slotId) {
+    console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten);
+    if (this.gameStarted === false) {
+      this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
+    } else {
+      this.startedMsg();
+      this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
+    }
+  }
 
-// function that sets the styles for occupied or not depending of the boolean value at the moment
-setTheSquare(isThereACookie) {
-  const classes = {
-    ocuppied: isThereACookie === 1,
-    empty: isThereACookie === 0
-  };
-  return classes;
-}
+  startGame() {
+    this.gameStarted = true;
+    this.btnAppear = false;
+    this.noMoreCookies = false;
+  }
 
-cookieToggler(id, coords, containsCookie, isHitted, isEaten) {
-  console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten);
-  if (this.gameStarted === false) {
-    this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
-  } else {
+  startedMsg() {
     this.alreadyStartedMsg = true;
     setTimeout(() => {
       this.alreadyStartedMsg = false;
     }, 3000);
   }
-}
 
-startGame() {
-  this.gameStarted = true;
-  this.btnAppear = false;
-  this.noMoreCookies = false;
-}
+  cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId) {
+    // console.log('ID SLOT: ', this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId));
+    if (containsCookie === 0) {
+      // cambiar estilo al slot con el id especificado
+      (document.querySelector('#' +
+      this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
+      .style.background = 'green';
+    } else if (containsCookie === 1) {
+      (document.querySelector('#' +
+      this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
+      .style.background = 'red';
+    }
+  }
 
 
 }

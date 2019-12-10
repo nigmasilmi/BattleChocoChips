@@ -53,7 +53,6 @@ export class PlayerBComponent implements OnInit {
 
   keepCookiesConstant() {
     this.battleServ.keepCookiesConstantInB();
-
   }
 
   startGame() {

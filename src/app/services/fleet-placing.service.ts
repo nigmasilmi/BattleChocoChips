@@ -31,7 +31,6 @@ export class FleetPlacingService {
 
   });
 
-
   constructor(private afs: AngularFirestore, public route: Router) {
     this.cookieCounter = 0;
 
@@ -73,8 +72,6 @@ export class FleetPlacingService {
     };
     this.saveBoardInFirestore(dataToSave);
   }
-
-
 
   // fuction that assigns 1 or 0,  1 for placing cookie, 0 for not placing it
   placeCookieOrNot(cookiesAreNumbered) {
@@ -216,6 +213,35 @@ export class FleetPlacingService {
       }
     }
     return this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard });
+  }
+
+  // function to mark local board
+  // it mark if the clicked coordinate is a cookie or a jelly
+  // updates the values in firestore
+  thereIsCookieOrJelly(idComing, targetCoords, contCookieComing, hittedComming, eatenComing, slotId) {
+    const rowCoord = this.checkTheCoordLength(targetCoords)[0];
+    const colCoord = this.checkTheCoordLength(targetCoords)[1];
+    // const mayIPlaceAnotherCookie = this.keepCookiesConstant();
+    // this.stoPlacingTheCookie = this.keepCookiesConstant();
+    for (let r = 0; r < this.settedRows; r++) {
+      for (let c = 0; c < this.settedColumns; c++) {
+        if (this.localBoard[r][c] === this.localBoard[rowCoord][colCoord]) {
+          if (contCookieComing === 1 && eatenComing === 0 && hittedComming === 0) {
+            this.localBoard[r][c] = {
+              coordinates: `${r}${c}`,
+              withCookie: contCookieComing,
+              hitted: 1, // por el momento todas las galletas ocupan un casillero
+              eaten: 1
+            };
+            // aquí o en otro lugar función que muestre galleta destrozada
+          } else if (contCookieComing === 0) {
+            // función que marque como casilla vacía o muestre jalea aplastada
+          }
+        }
+      }
+    }
+    this.afs.collection('boards').doc(`${idComing}`).update({ board: this.localBoard });
+    return slotId;
   }
 
   // function that keeps the max cookies number when the player rearranges them
