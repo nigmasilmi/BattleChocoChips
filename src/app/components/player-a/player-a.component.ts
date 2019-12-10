@@ -20,8 +20,7 @@ export class PlayerAComponent implements OnInit {
   alreadyStartedMsg = false;
   btnAppear = true;
   noMoreCookies: boolean;
-  // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
-  // las mismas condiciones de batalla (mismo tamaño de boards)
+
 
   constructor(private route: ActivatedRoute, public fleetPlacingS: FleetPlacingService) {
   }

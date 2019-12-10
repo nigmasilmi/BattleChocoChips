@@ -22,6 +22,7 @@ export class GameBoardComponent implements OnInit {
     this.boardsPredefined = this.fleetPlacingS.getPredefinedBoards();
     this.fleetPlacingS.bringTheAvailables().subscribe(whatComes => {
       this.availableList = whatComes;
+      console.log(this.availableList);
       this.permissionToRender = true;
 
     });

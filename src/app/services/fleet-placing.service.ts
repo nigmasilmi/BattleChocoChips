@@ -97,17 +97,13 @@ export class FleetPlacingService {
 
   // CREATE BOARD (with player name)
   saveBoardInFirestore(data) {
-    console.log('this is data as argument: ', data);
     return new Promise<any>((resolve, reject) => {
       this.afs
         .collection('boards')
         .add(data)
         .then(res => {
           res.get().then( resp => {
-            console.log('resDelaPromesa.data(): ', resp.data());
             this.route.navigateByUrl(`/battlefield/boardA/${resp.id}`);
-            console.log('this.route: ', this.route);
-            console.log('`/battlefield/boardA/${resp.id}`: ', `/battlefield/boardA/${resp.id}`);
 
           });
         },
@@ -141,11 +137,9 @@ export class FleetPlacingService {
   }
 
   pushBoardsCollection() {
-    console.log('====== CHOOSE PLAYER B ======');
     // guardar en this.boardsCollection los id de todos los datos de jugadores
     this.afs.collection('boards').snapshotChanges().subscribe((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        // console.log(doc);
         this.boardsCollection.push(doc.payload.doc.id);
       });
     });
