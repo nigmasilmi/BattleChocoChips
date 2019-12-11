@@ -15,8 +15,12 @@ export class PlayerBComponent implements OnInit {
   btnAppear = true;
   gameStarted = false;
   noMoreCookies: boolean;
+  itIsNotMyTurn: boolean;
 
-  constructor(private route: ActivatedRoute, public battleServ: BattleService) { }
+  constructor(
+    private route: ActivatedRoute,
+    public battleServ: BattleService
+    ) { }
 
 
   ngOnInit() {

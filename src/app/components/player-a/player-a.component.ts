@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
 import { ActivatedRoute } from '@angular/router';
+import { BattleService } from '../../services/battle.service'
 
 
 @Component({
@@ -20,11 +21,15 @@ export class PlayerAComponent implements OnInit {
   alreadyStartedMsg = false;
   btnAppear = true;
   noMoreCookies: boolean;
+  itIsNotMyTurn: boolean;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
 
-  constructor(private route: ActivatedRoute, public fleetPlacingS: FleetPlacingService) {
-  }
+  constructor(
+    private route: ActivatedRoute,
+    public fleetPlacingS: FleetPlacingService,
+    public battleServ: BattleService
+    ) { }
 
   ngOnInit() {
     this.settedRows = this.fleetPlacingS.limiTheRows();
@@ -47,11 +52,17 @@ export class PlayerAComponent implements OnInit {
 
   cookieToggler(id, coords, containsCookie, isHitted, isEaten, slotId) {
     console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten);
+
     if (this.gameStarted === false) {
       this.fleetPlacingS.toogleTheCookie(id, coords, containsCookie, isHitted, isEaten);
     } else {
       this.startedMsg();
-      this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
+      if (this.battleServ.switchTurn) {
+        this.itIsNotMyTurn = true;
+        return;
+      } else {
+        this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
+      }
     }
   }
 
@@ -68,17 +79,35 @@ export class PlayerAComponent implements OnInit {
     }, 3000);
   }
 
+// Credits (no borrar)
+// galleta quebrada
+// <div>Icons made by <a href="https://www.flaticon.com/authors/freepik"
+// title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/"
+// title="Flaticon">www.flaticon.com</a></div>
+
+// jalea Aplastada
+// <div>Icons made by <a href="https://www.flaticon.com/authors/freepik"
+// title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/
+// "title="Flaticon">www.flaticon.com</a></div>
+
   cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId) {
     // console.log('ID SLOT: ', this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId));
+    const boardSlotId = this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId);
+
+    (document.querySelector('#' + boardSlotId) as HTMLElement)
+    .style.backgroundRepeat = 'no-repeat';
+    (document.querySelector('#' + boardSlotId) as HTMLElement)
+    .style.backgroundSize = '100%';
+
     if (containsCookie === 0) {
       // cambiar estilo al slot con el id especificado
-      (document.querySelector('#' +
-      this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
-      .style.background = 'green';
+      (document.querySelector('#' + boardSlotId) as HTMLElement)
+      .style.backgroundImage =
+      'url("https://res.cloudinary.com/dcloh6s2z/image/upload/v1575983595/Portafolio/BattleChocoChip/jaleaAplastada_q5duce.png")';
     } else if (containsCookie === 1) {
-      (document.querySelector('#' +
-      this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
-      .style.background = 'red';
+      (document.querySelector('#' + boardSlotId) as HTMLElement)
+      .style.backgroundImage =
+      'url("https://res.cloudinary.com/dcloh6s2z/image/upload/v1575982533/Portafolio/BattleChocoChip/cookieCrumb_lbnkpx.png")';
     }
   }
 

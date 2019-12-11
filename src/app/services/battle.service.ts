@@ -18,6 +18,7 @@ export class BattleService {
   guestForm = new FormGroup({
     guestName: new FormControl('', [Validators.required]),
   });
+  switchTurn = false; // true le toca a B. false le toca a A.
 
   constructor(public afs: AngularFirestore, public fleetService: FleetPlacingService) { }
 

@@ -7,3 +7,11 @@
     display: flex;
     flex-direction: row;
 }
+
+.BattleChocoChipBeginning {
+    background-image: url(https://res.cloudinary.com/dcloh6s2z/image/upload/v1575988678/Portafolio/BattleChocoChip/BattleChocoChipInicio-transparente_pzt7ho.svg);
+    background-size: 100%;
+    width: 400px;
+    height: 350px;
+    background-repeat: no-repeat;
+}
