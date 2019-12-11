@@ -1,11 +1,11 @@
 <div class="BattleChocoChipBeginning"></div>
-<h2>Escoge un campo de batalla para entrar en contienda</h2>
+<h2>Escoge un contrincante para entrar en contienda</h2>
 <button (click)="goWithA()" type="submit">Escoger</button>
 <div *ngIf="iGoWithA">
   <!-- desplegar acá los tableros disponibles -->
   <ul *ngIf="permissionToRender">
     <li *ngFor="let available of availableList"><a
-        routerLink="/battlefield/boardA/{{available.id}}">{{available.id}}</a></li>
+        routerLink="/battlefield/boardA/{{available.id}}">{{available.player}}</a></li>
   </ul>
 </div>
 
