@@ -1,3 +1,4 @@
+<div class="BattleChocoChipBeginning"></div>
 <h2>Escoge un contrincante para entrar en contienda</h2>
 <button (click)="goWithA()" type="submit">Escoger</button>
 <div *ngIf="iGoWithA">
@@ -9,7 +10,7 @@
 </div>
 
 <h2>O crea uno nuevo</h2>
-<button (click)="goWithB()" type="submit">Crear nuevo</button>
+<button class="btn btn-primary btn-lg" (click)="goWithB()" type="submit">Crear nuevo</button>
 <div *ngIf="iGoWithB">
   <h3>Diseña tu campo de batalla</h3>
   <form [formGroup]="this.fleetPlacingS.preferencesForm">

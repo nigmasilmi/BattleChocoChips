@@ -18,6 +18,7 @@ export class PlayerBComponent implements OnInit {
   gameStarted = false;
   showForm = true;
   noMoreCookies: boolean;
+  // itIsNotMyTurn: boolean;
   settedRows: number;
   alreadyStartedMsg = false;
   playerBId: string;
@@ -89,8 +90,12 @@ export class PlayerBComponent implements OnInit {
       this.battleServ.togleBCookies(id, coords, containsCookie, isHitted, isEaten);
     } else {
       this.startedMsg();
-      // aquí hay que verificar si el tablero pertenece al mismo jugador, sino, sigue la función
-      this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
+      if (this.battleServ.switchTurn) {
+        // this.itIsNotMyTurn = true;
+      } else {
+        // this.itIsNotMyTurn = false;
+        this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
+      }
     }
   }
 
@@ -107,11 +112,13 @@ export class PlayerBComponent implements OnInit {
       // cambiar estilo al slot con el id especificado
       (document.querySelector('#' +
       this.battleServ.thereIsCookieOrJellyB(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
-      .style.background = 'green';
+      .style.backgroundImage =
+      'url("https://res.cloudinary.com/dcloh6s2z/image/upload/v1575983595/Portafolio/BattleChocoChip/jaleaAplastada_q5duce.png")';
     } else if (containsCookie === 1) {
       (document.querySelector('#' +
       this.battleServ.thereIsCookieOrJellyB(id, coords, containsCookie, isHitted, isEaten, slotId)) as HTMLElement)
-      .style.background = 'red';
+      .style.backgroundImage =
+      'url("https://res.cloudinary.com/dcloh6s2z/image/upload/v1575982533/Portafolio/BattleChocoChip/cookieCrumb_lbnkpx.png")';
     }
   }
 

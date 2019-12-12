@@ -3,7 +3,7 @@
   Invitado: {{boardLanding.guest}} <br>
   Id tablero: {{currentId}} <br>
   Flota de galletas: {{boardLanding.fleetNumber}}<br>
-  <div class="containerBoard" id="myOpponent">
+  <div class="containerBoard" [attr.id]="'_' + currentId">
     <div class="cookieJar" *ngFor="let key of objectKeys(boardLanding.board); index as i">
       <div *ngIf="settedRows > i">
         <div class="cookieSlot" *ngFor="let ele of boardLanding.board[key]"
@@ -20,4 +20,5 @@
 <div *ngIf="alreadyStartedMsg" class="errorMsg">Ya no puedes cambiar tu flota de posición, la batalla comenzó</div>
 <div *ngIf="!this.fleetPlacingS.keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas,
   pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
+<div *ngIf="itIsNotMyTurn">Espere a su oponente</div>
 <button *ngIf="btnAppear" (click)="startGame()">Iniciar Partida</button>
