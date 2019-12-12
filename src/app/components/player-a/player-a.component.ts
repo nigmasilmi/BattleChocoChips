@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FleetPlacingService } from '../../services/fleet-placing.service';
 import { ActivatedRoute } from '@angular/router';
-import { BattleService } from '../../services/battle.service'
+import { BattleService } from '../../services/battle.service';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class PlayerAComponent implements OnInit {
   alreadyStartedMsg = false;
   btnAppear = true;
   noMoreCookies: boolean;
-  itIsNotMyTurn: boolean;
+  // itIsNotMyTurn: boolean;
   // nombre, colInput y rowInput debe ser ingresado por el usuario. Verificar que los contrincantes tengan
   // las mismas condiciones de batalla (mismo tamaño de boards)
 
@@ -38,8 +38,17 @@ export class PlayerAComponent implements OnInit {
       this.boardLanding = boardComing.payload.data();
       this.settedRows = this.boardLanding.nRows;
       this.loading = true;
+      console.log('(1)this.boardLanding: ', this.boardLanding);
+    });
+    console.log('(2)this.boardLanding: ', this.boardLanding);
+    this.fleetPlacingS.bringTheInterestBoard(this.currentId).get()
+    .pipe().forEach(element => {
+      const myBoardLanding = element.data();
+      console.log('myBoardLanding: ', myBoardLanding);
+      this.hideBoardContent(this.currentId, myBoardLanding);
     });
   }
+
 
   // function that sets the styles for occupied or not depending of the boolean value at the moment
   setTheSquare(isThereACookie) {
@@ -58,10 +67,12 @@ export class PlayerAComponent implements OnInit {
     } else {
       this.startedMsg();
       if (this.battleServ.switchTurn) {
-        this.itIsNotMyTurn = true;
-        return;
+        // this.itIsNotMyTurn = true;
       } else {
+        // this.itIsNotMyTurn = false;
         this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
+        // this.battleServ.switchTurn = true;
+        // this.itIsNotMyTurn = true;
       }
     }
   }
@@ -108,6 +119,29 @@ export class PlayerAComponent implements OnInit {
       (document.querySelector('#' + boardSlotId) as HTMLElement)
       .style.backgroundImage =
       'url("https://res.cloudinary.com/dcloh6s2z/image/upload/v1575982533/Portafolio/BattleChocoChip/cookieCrumb_lbnkpx.png")';
+    }
+    // this.itIsNotMyTurn = true;
+    // this.battleServ.switchTurn = true;
+  }
+
+  hideBoardContent(currentId, boardData) {
+    console.log('hideBoardContent(boardData)');
+    console.log('boardData: ', boardData);
+    console.log('currentId: ', currentId);
+    if (boardData.guest === 'ninguno') {
+      console.log('(boardData.guest === ninguno)');
+      (document.querySelectorAll('.empty').forEach(element => {
+        // console.log('querySelectorAll element: ', element);
+        element.setAttribute('style', 'background: aqua;');
+      }) );
+      (document.querySelectorAll('.ocuppied').forEach(element => {
+        // console.log('querySelectorAll element: ', element);
+        element.setAttribute('style', 'background: aqua;');
+      }) );
+    } else if (boardData.guest !== 'IamTheGuest') { // si yo soy player b, oculto player a
+      console.log('boardData.hostId: ', boardData.hostId);
+    } else { // si yo soy player a, oculto player b
+      //
     }
   }
 

@@ -3,7 +3,7 @@
   Invitado: {{boardLanding.guest}} <br>
   Id tablero: {{currentId}} <br>
   Flota de galletas: {{boardLanding.fleetNumber}}<br>
-  <div class="containerBoard" id="myOpponent">
+  <div class="containerBoard" [attr.id]="'_' + currentId">
     <div class="cookieJar" *ngFor="let key of objectKeys(boardLanding.board); index as i">
       <div *ngIf="settedRows > i">
         <div class="cookieSlot" *ngFor="let ele of boardLanding.board[key]"

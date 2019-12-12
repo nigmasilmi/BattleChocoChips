@@ -133,5 +133,4 @@ thereIsCookieOrJellyB(id, coords, containsCookie, isHitted, isEaten, slotId) {
   this.fleetService.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId);
 }
 
-
 }
