@@ -25,7 +25,7 @@
 <div *ngIf="btnAppear" class="goAhead">Para reubicar tu flota, haz click sobre la casilla, una vez estés conforme, pulsa
   "iniciar partida"</div>
 <div *ngIf="alreadyStartedMsg" class="errorMsg">Ya no puedes cambiar tu flota de posición, la batalla comenzó</div>
-<div *ngIf="!keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas,
-  pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
+<div *ngIf="!this.fleetPlacingS.keepCookiesConstant() && btnAppear" class="errorMsg">No puedes colocar más galletas,
+    pero puedes cambiarlas de posición, haz click sobre una para eliminarla </div>
   <!-- <div *ngIf="itIsNotMyTurn">Espere a su oponente</div> -->
 <button *ngIf="btnAppear" (click)="startGame()">Iniciar Partida</button>
