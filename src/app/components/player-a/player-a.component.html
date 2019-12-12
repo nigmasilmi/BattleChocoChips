@@ -8,7 +8,8 @@
       <div *ngIf="settedRows > i">
         <div class="cookieSlot" *ngFor="let ele of boardLanding.board[key]"
           (click)="cookieToggler(currentId, ele.coordinates, ele.withCookie, ele.hitted, ele.eaten, '_' + ele.coordinates + '_' + currentId)">
-          <div [attr.id]="'_' + ele.coordinates + '_' + currentId" [ngClass]="setTheSquare(ele.withCookie)">{{ele.coordinates}}</div>
+          <div [attr.id]="'_' + ele.coordinates + '_' + currentId" [ngClass]="setTheSquare(ele.withCookie)">
+            {{ele.coordinates}}</div>
         </div>
       </div>
     </div>

@@ -94,6 +94,7 @@ export class BattleService {
             console.log('playerBId: ', playerBId);
             this.playerBId = playerBId;
             // update the host board including the guest id
+            // this.updateTheHostBoard(this.hostId, guestName, playerBId);
             this.updateTheHostBoard(this.hostId, guestName, playerBId);
           });
         },
@@ -131,6 +132,10 @@ togleBCookies(id, coords, containsCookie, isHitted, isEaten) {
 thereIsCookieOrJellyB(id, coords, containsCookie, isHitted, isEaten, slotId) {
   this.fleetService.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId);
 }
+
+// function that stores the battle contenders id and their object properties
+
+
 
 
 }

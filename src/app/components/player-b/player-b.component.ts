@@ -84,11 +84,12 @@ export class PlayerBComponent implements OnInit {
   }
 
   cookieToggler(id, coords, containsCookie, isHitted, isEaten, slotId) {
-    console.log('la casilla pulsada tiene: ', id, coords, containsCookie, isHitted, isEaten);
+    console.log('la casilla pulsada en oponente (player b) tiene: ', id, coords, containsCookie, isHitted, isEaten);
     if (this.gameStarted === false) {
       this.battleServ.togleBCookies(id, coords, containsCookie, isHitted, isEaten);
     } else {
       this.startedMsg();
+      // aquí hay que verificar si el tablero pertenece al mismo jugador, sino, sigue la función
       this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
     }
   }

@@ -22,6 +22,8 @@ export class FleetPlacingService {
   stoPlacingTheCookie: boolean;
   boardsCollection: any = [];
 
+  // loadTheBoard = false;
+
   // reactive form construction
   preferencesForm = new FormGroup({
     playerName: new FormControl('', [Validators.required]),
@@ -99,9 +101,8 @@ export class FleetPlacingService {
         .collection('boards')
         .add(data)
         .then(res => {
-          res.get().then( resp => {
+          res.get().then(resp => {
             this.route.navigateByUrl(`/battlefield/boardA/${resp.id}`);
-
           });
         },
           err => reject(err));
@@ -194,7 +195,9 @@ export class FleetPlacingService {
     for (let r = 0; r < this.settedRows; r++) {
       for (let c = 0; c < this.settedColumns; c++) {
         if (this.localBoard[r][c] === this.localBoard[rowCoord][colCoord]) {
+          console.log('entra al primer if');
           if (contCookieComing === 0 && mayIPlaceAnotherCookie) {
+            console.log('entra al segundo if');
             this.localBoard[r][c] = {
               coordinates: `${r}${c}`,
               withCookie: 1,
@@ -202,6 +205,7 @@ export class FleetPlacingService {
               eaten: eatenComing
             };
           } else {
+            console.log('entra al else');
             this.localBoard[r][c] = {
               coordinates: `${r}${c}`,
               withCookie: 0,
@@ -221,8 +225,6 @@ export class FleetPlacingService {
   thereIsCookieOrJelly(idComing, targetCoords, contCookieComing, hittedComming, eatenComing, slotId) {
     const rowCoord = this.checkTheCoordLength(targetCoords)[0];
     const colCoord = this.checkTheCoordLength(targetCoords)[1];
-    // const mayIPlaceAnotherCookie = this.keepCookiesConstant();
-    // this.stoPlacingTheCookie = this.keepCookiesConstant();
     for (let r = 0; r < this.settedRows; r++) {
       for (let c = 0; c < this.settedColumns; c++) {
         if (this.localBoard[r][c] === this.localBoard[rowCoord][colCoord]) {

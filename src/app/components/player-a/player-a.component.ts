@@ -52,6 +52,19 @@ export class PlayerAComponent implements OnInit {
       this.startedMsg();
       this.cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId);
     }
+
+    this.whoIsClicking(id);
+  }
+
+  // function that identifies the player clicking
+  whoIsClicking(id: string) {
+    console.log('el que está haciendo click es:', id);
+    return id;
+    // debe ejecutarse en un click de cada celda
+    // debe tomar el id del tablero
+    // debe tomar el componente en el que se está ejecutando el click
+    // debe tomar al objeto board y extraer las propiedades anfitrion e invitado
+    // crear un arreglo local y temporal para ello? si
   }
 
   startGame() {
@@ -68,7 +81,6 @@ export class PlayerAComponent implements OnInit {
   }
 
   cookieOrJellyMarked(id, coords, containsCookie, isHitted, isEaten, slotId) {
-    // console.log('ID SLOT: ', this.fleetPlacingS.thereIsCookieOrJelly(id, coords, containsCookie, isHitted, isEaten, slotId));
     if (containsCookie === 0) {
       // cambiar estilo al slot con el id especificado
       (document.querySelector('#' +
