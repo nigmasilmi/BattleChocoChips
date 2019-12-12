@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BattleService } from '../../services/battle.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { FleetPlacingService } from 'src/app/services/fleet-placing.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class PlayerBComponent implements OnInit {
   private oppBoardCreated = new BehaviorSubject<boolean>(false);
   permission: Observable<boolean> = this.oppBoardCreated.asObservable();
 
-  constructor(private route: ActivatedRoute, public battleServ: BattleService) {
+  constructor(private route: ActivatedRoute, public battleServ: BattleService, public fleetPlacingS: FleetPlacingService) {
 
   }
 
